@@ -17,7 +17,7 @@
 			}
 		});
 	</script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../assets/css/atlantis.min.css">
@@ -258,20 +258,30 @@
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#base">
 								<i class="fas fa-layer-group"></i>
-								<p>Base</p>
+								<p>Kategori</p>
 								<span class="caret"></span>
 							</a>
 							<div class="collapse" id="base">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="components/avatars.html">
-											<span class="sub-item">Avatars</span>
+										<a href="{{route('superadmin.kategori')}}">
+											<span class="sub-item">Kategori</span>
 										</a>
 									</li>
 
 								</ul>
 							</div>
 						</li>
+
+                        <li class="nav-item">
+							<a href="{{route('superadmin.kategori')}}">
+								<i class="fa-solid fa-tag"></i>
+								<p>Kategori</p>
+
+							</a>
+
+						</li>
+
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#sidebarLayouts">
 								<i class="fas fa-th-list"></i>

@@ -66,7 +66,7 @@
 
     </div>
 </div>
-@include('form.kategori.index')
+
 @endsection
 
 

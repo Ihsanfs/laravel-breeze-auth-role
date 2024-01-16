@@ -39,6 +39,8 @@ Route::middleware(['auth', 'verified', 'role:1'])
     ->group(function() {
         Route::get('/Dashboard', [Super\SuperadminController::class, 'index'])
             ->name('dashboard');
+     Route::get('/kategori', [Super\SuperadminController::class, 'kategori'])
+            ->name('kategori');
     });
 
 Route::middleware(['auth', 'verified', 'role:2'])

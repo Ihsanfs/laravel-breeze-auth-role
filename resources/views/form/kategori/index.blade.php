@@ -1,13 +1,29 @@
 
+@extends('layouts.dashboard')
+@section('content')
+<div class="card-body">
 
-<div class="col-md-8">
-    <label for="Author"> Author</label>
-    <input type="text" placeholder="Author" class="form-control">
+    @if(Session::has('success'))
+    <div class="alert alert-primary">
+        {{Session('success')}}
+    </div>
+    @endif
+    <div class="table-responsive">
+        <table id="basic-datatables" class="display table table-striped table-hover" >
+            <a href="#" class="btn btn-secondary btn-round">Add Customer</a>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>slug</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<div class="col-md-8">
-    <label for="Judul"> Judul</label>
-    <input type="text" placeholder="Nama" class="form-control">
-</div>
-
-
+@endsection

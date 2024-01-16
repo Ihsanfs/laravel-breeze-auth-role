@@ -11,4 +11,8 @@ class SuperadminController extends Controller
     {
         return view('admin.index');
     }
+
+    public function kategori(){
+        return view('form.kategori.index');
+    }
 }
