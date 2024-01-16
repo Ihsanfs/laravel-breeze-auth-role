@@ -7,7 +7,8 @@
 	<link rel="icon" href="../assets/img/icon.ico" type="image/x-icon"/>
 
 	<!-- Fonts and icons -->
-	<script src="../assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="{{ asset('../assets/js/plugin/webfont/webfont.min.js') }}"></script>
+
 	<script>
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
@@ -19,11 +20,13 @@
 	</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!-- CSS Files -->
-	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../assets/css/atlantis.min.css">
+	<link rel="stylesheet" href="{{asset('../assets/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" href="{{ asset('../assets/css/atlantis.min.css') }}">
+
 
 	<!-- CSS Just for demo purpose, don't include it in your project -->
-	<link rel="stylesheet" href="../assets/css/demo.css">
+	<link rel="stylesheet" href="{{ asset('../assets/css/demo.css') }}">
+
 </head>
 <body data-background-color="dark">
 	<div class="wrapper">
@@ -32,7 +35,8 @@
 			<div class="logo-header" data-background-color="dark2">
 
 				<a href="index.html" class="logo">
-					<img src="../assets/img/logo.svg" alt="navbar brand" class="navbar-brand">
+					<img src="{{ asset('../assets/img/logo.svg') }}" alt="navbar brand" class="navbar-brand">
+
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
@@ -86,7 +90,8 @@
 										<div class="notif-center">
 											<a href="#">
 												<div class="notif-img">
-													<img src="../assets/img/jm_denis.jpg" alt="Img Profile">
+													<img src="{{ asset('../assets/img/jm_denis.jpg') }}" alt="Img Profile">
+
 												</div>
 												<div class="notif-content">
 													<span class="subject">Jimmy Denis</span>
@@ -98,7 +103,8 @@
 											</a>
 											<a href="#">
 												<div class="notif-img">
-													<img src="../assets/img/chadengle.jpg" alt="Img Profile">
+													<img src="{{ asset('../assets/img/chadengle.jpg') }}" alt="Img Profile">
+
 												</div>
 												<div class="notif-content">
 													<span class="subject">Chad</span>
@@ -108,30 +114,8 @@
 													<span class="time">12 minutes ago</span>
 												</div>
 											</a>
-											<a href="#">
-												<div class="notif-img">
-													<img src="../assets/img/mlane.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Jhon Doe</span>
-													<span class="block">
-														Ready for the meeting today...
-													</span>
-													<span class="time">12 minutes ago</span>
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-img">
-													<img src="../assets/img/talha.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Talha</span>
-													<span class="block">
-														Hi, Apa Kabar ?
-													</span>
-													<span class="time">17 minutes ago</span>
-												</div>
-											</a>
+
+
 										</div>
 									</div>
 								</li>
@@ -145,14 +129,16 @@
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
 								<div class="avatar-sm">
-									<img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+									<img src="{{ asset('../assets/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
+
 								</div>
 							</a>
 							<ul class="dropdown-menu dropdown-user animated fadeIn">
 								<div class="dropdown-user-scroll scrollbar-outer">
 									<li>
 										<div class="user-box">
-											<div class="avatar-lg"><img src="../assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
+											<div class="avatar-lg"><img src="{{ asset('../assets/img/profile.jpg') }}" alt="image profile" class="avatar-img rounded">
+                                            </div>
 											<div class="u-text">
 
 												<h4>{{ Auth::user()->name }}</h4>
@@ -189,7 +175,8 @@
 				<div class="sidebar-content">
 					<div class="user">
 						<div class="avatar-sm float-left mr-2">
-							<img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+							<img src="{{ asset('../assets/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
+
 						</div>
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
@@ -231,9 +218,9 @@
 							<a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
 								<i class="fas fa-home"></i>
 								<p>Dashboard</p>
-								<span class="caret"></span>
+								{{-- <span class="caret"></span> --}}
 							</a>
-							<div class="collapse" id="dashboard">
+							{{-- <div class="collapse" id="dashboard">
 								<ul class="nav nav-collapse">
 									<li>
 										<a href="../demo1/index.html">
@@ -246,7 +233,7 @@
 										</a>
 									</li>
 								</ul>
-							</div>
+							</div> --}}
 						</li>
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
@@ -255,7 +242,7 @@
 							<h4 class="text-section">MENU</h4>
 						</li>
 
-						<li class="nav-item">
+						{{-- <li class="nav-item">
 							<a data-toggle="collapse" href="#base">
 								<i class="fas fa-layer-group"></i>
 								<p>Kategori</p>
@@ -271,7 +258,7 @@
 
 								</ul>
 							</div>
-						</li>
+						</li> --}}
 
                         <li class="nav-item">
 							<a href="{{route('superadmin.kategori')}}">
@@ -282,22 +269,74 @@
 
 						</li>
 
+                        <li class="nav-item">
+							<a href="{{route('superadmin.berita')}}">
+                                <i class="fa-solid fa-newspaper"></i>
+								<p>Berita</p>
+
+							</a>
+
+						</li>
+
+                        <li class="nav-item">
+							<a href="{{route('superadmin.slider')}}">
+                                <i class="fa-solid fa-photo-film"></i>
+								<p>Photo</p>
+
+							</a>
+
+						</li>
+
+                        {{-- <li class="nav-item">
+							<a href="{{route('superadmin.berita')}}">
+                                <i class="fa-solid fa-gear"></i>
+								<p>Pengaturan</p>
+
+							</a>
+
+						</li> --}}
+
+
+
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#sidebarLayouts">
-								<i class="fas fa-th-list"></i>
-								<p>Sidebar Layouts</p>
+                                <i class="fa-solid fa-gear"></i>
+								<p>Pengaturan</p>
 								<span class="caret"></span>
 							</a>
 							<div class="collapse" id="sidebarLayouts">
 								<ul class="nav nav-collapse">
 									<li>
 										<a href="sidebar-style-1.html">
-											<span class="sub-item">Sidebar Style 1</span>
+											<span class="sub-item">Instansi</span>
 										</a>
 									</li>
 									<li>
 										<a href="overlay-sidebar.html">
 											<span class="sub-item">Overlay Sidebar</span>
+										</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+
+                        <li class="nav-item">
+							<a data-toggle="collapse" href="#users">
+                                <i class="fa-solid fa-user"></i>
+								<p>Users</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="users">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="sidebar-style-1.html">
+											<span class="sub-item">Profil</span>
+										</a>
+									</li>
+									<li>
+										<a href="overlay-sidebar.html">
+											<span class="sub-item">Keamanan</span>
 										</a>
 									</li>
 
@@ -413,46 +452,46 @@
 		<!-- End Custom template -->
 	</div>
 	<!--   Core JS Files   -->
-	<script src="../assets/js/core/jquery.3.2.1.min.js"></script>
-	<script src="../assets/js/core/popper.min.js"></script>
-	<script src="../assets/js/core/bootstrap.min.js"></script>
+	<script src="{{ asset('../assets/js/core/jquery.3.2.1.min.js') }}"></script>
+<script src="{{ asset('../assets/js/core/popper.min.js') }}"></script>
+<script src="{{ asset('../assets/js/core/bootstrap.min.js') }}"></script>
 
-	<!-- jQuery UI -->
-	<script src="../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-	<script src="../assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<!-- jQuery UI -->
+<script src="{{ asset('../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('../assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') }}"></script>
 
-	<!-- jQuery Scrollbar -->
-	<script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<!-- jQuery Scrollbar -->
+<script src="{{ asset('../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
 
+<!-- Chart JS -->
+<script src="{{ asset('../assets/js/plugin/chart.js/chart.min.js') }}"></script>
 
-	<!-- Chart JS -->
-	<script src="../assets/js/plugin/chart.js/chart.min.js"></script>
+<!-- jQuery Sparkline -->
+<script src="{{ asset('../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
 
-	<!-- jQuery Sparkline -->
-	<script src="../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+<!-- Chart Circle -->
+<script src="{{ asset('../assets/js/plugin/chart-circle/circles.min.js') }}"></script>
 
-	<!-- Chart Circle -->
-	<script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
+<!-- Datatables -->
+<script src="{{ asset('../assets/js/plugin/datatables/datatables.min.js') }}"></script>
 
-	<!-- Datatables -->
-	<script src="../assets/js/plugin/datatables/datatables.min.js"></script>
+<!-- Bootstrap Notify -->
+<script src="{{ asset('../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
 
-	<!-- Bootstrap Notify -->
-	<script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<!-- jQuery Vector Maps -->
+<script src="{{ asset('../assets/js/plugin/jqvmap/jquery.vmap.min.js') }}"></script>
+<script src="{{ asset('../assets/js/plugin/jqvmap/maps/jquery.vmap.world.js') }}"></script>
 
-	<!-- jQuery Vector Maps -->
-	<script src="../assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
-	<script src="../assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+<!-- Sweet Alert -->
+<script src="{{ asset('../assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
 
-	<!-- Sweet Alert -->
-	<script src="../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<!-- Atlantis JS -->
+<script src="{{ asset('../assets/js/atlantis.min.js') }}"></script>
 
-	<!-- Atlantis JS -->
-	<script src="../assets/js/atlantis.min.js"></script>
+<!-- Atlantis DEMO methods, don't include it in your project! -->
+<script src="{{ asset('../assets/js/setting-demo.js') }}"></script>
+<script src="{{ asset('../assets/js/demo.js') }}"></script>
 
-	<!-- Atlantis DEMO methods, don't include it in your project! -->
-	<script src="../assets/js/setting-demo.js"></script>
-	<script src="../assets/js/demo.js"></script>
 	<script>
 		$('#lineChart').sparkline([102,109,120,99,110,105,115], {
 			type: 'line',
@@ -481,5 +520,10 @@
 			fillColor: 'rgba(255, 255, 255, .15)'
 		});
 	</script>
+     <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+     <script>
+        CKEDITOR.replace( 'editor1' );
+        config.sourceAreaTabSize = 8;
+</script>
 </body>
 </html>

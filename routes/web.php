@@ -39,8 +39,24 @@ Route::middleware(['auth', 'verified', 'role:1'])
     ->group(function() {
         Route::get('/Dashboard', [Super\SuperadminController::class, 'index'])
             ->name('dashboard');
+            //kategori
      Route::get('/kategori', [Super\SuperadminController::class, 'kategori'])
             ->name('kategori');
+            Route::get('/kategori/create', [Super\SuperadminController::class, 'kategori_add'])
+            ->name('kategori_add');
+
+            //berita
+            Route::get('/berita/create', [Super\SuperadminController::class, 'berita_add'])
+            ->name('berita_add');
+            Route::get('/berita', [Super\SuperadminController::class, 'berita'])
+            ->name('berita');
+
+            //slide
+
+            Route::get('/slider', [Super\SuperadminController::class, 'slider'])
+            ->name('slider');
+            Route::get('/slider/create', [Super\SuperadminController::class, 'slider_add'])
+            ->name('slider_add');
     });
 
 Route::middleware(['auth', 'verified', 'role:2'])

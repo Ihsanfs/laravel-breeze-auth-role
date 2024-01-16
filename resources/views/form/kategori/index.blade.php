@@ -10,7 +10,7 @@
     @endif
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover" >
-            <a href="#" class="btn btn-secondary btn-round">Add Customer</a>
+            <a href="{{route('superadmin.kategori_add')}}" class="btn btn-secondary btn-round">Add Kategori</a>
             <thead>
                 <tr>
                     <th>No</th>

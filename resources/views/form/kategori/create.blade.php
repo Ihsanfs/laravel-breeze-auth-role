@@ -1,3 +1,5 @@
+@extends('layouts.dashboard')
+@section('content')
 <div class="card-body">
     <div class="row">
 
@@ -14,3 +16,6 @@
 
         </form>
             </div>
+    </div>
+</div>
+@endsection

@@ -15,4 +15,25 @@ class SuperadminController extends Controller
     public function kategori(){
         return view('form.kategori.index');
     }
+
+    public function kategori_add(){
+        return view('form.kategori.create');
+    }
+    public function berita (){
+        return view('form.berita.index');
+    }
+
+    public function berita_add (){
+        return view('form.berita.create');
+    }
+
+    public function slider(){
+        return view('form.slide.index');
+
+    }
+
+    public function slider_add(){
+        return view('form.slide.create');
+
+    }
 }
