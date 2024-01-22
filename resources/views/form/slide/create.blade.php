@@ -1,11 +1,11 @@
-
 @extends('layouts.dashboard')
 @section('content')
 <div class="card-body">
     <div class="row">
 
         <div class="col-md-6 col-lg-6">
-            <form action="#" method="POST" enctype="multipart/form-data">
+            <form action="{{route($role.'.slider_store')}}" method="POST" enctype="multipart/form-data">
+                @method('post')
                 @csrf
             <div class="form-group">
                 <label>judul</label>
@@ -20,13 +20,13 @@
 
             <div class="form-group">
                 <label>Gambar</label>
-                <input type="file" name="gambar_slide"  class="form-control">
+                <input type="file" name="video_slide"  >
             </div>
 
 
             <div class="form-group">
                 <label>status</label>
-                <select name="is_active" id="" class="form-control">
+                <select name="is_active" id="">
                     <option value="1">publish</option>
                     <option value="0">draft</option>
 

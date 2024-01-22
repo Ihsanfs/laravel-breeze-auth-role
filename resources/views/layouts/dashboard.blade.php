@@ -4,7 +4,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>Dashboard</title>
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-	<link rel="icon" href="../assets/img/icon.ico" type="image/x-icon"/>
+	<link rel="icon" href="{{asset('images/icon/favicon.ico')}}" type="image/x-icon"/>
 
 	<!-- Fonts and icons -->
     <script src="{{ asset('../assets/js/plugin/webfont/webfont.min.js') }}"></script>
@@ -56,7 +56,7 @@
 			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="dark">
 
 				<div class="container-fluid">
-					<div class="collapse" id="search-nav">
+					{{-- <div class="collapse" id="search-nav">
 						<form class="navbar-left navbar-form nav-search mr-md-3">
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -67,7 +67,7 @@
 								<input type="text" placeholder="Search ..." class="form-control">
 							</div>
 						</form>
-					</div>
+					</div> --}}
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 						<li class="nav-item toggle-nav-search hidden-caret">
 							<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
@@ -180,37 +180,17 @@
 						</div>
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span>
-                                    {{ Auth::user()->name }}
-									<span class="user-level">
-                                        @if(Auth::user()->role_id == 1)
-                                        Student
-                                        @endif
-                                    </span>
-									<span class="caret"></span>
-								</span>
-							</a>
-							<div class="clearfix"></div>
 
-							<div class="collapse in" id="collapseExample">
-								<ul class="nav">
-									<li>
-										<a href="#profile">
-											<span class="link-collapse">My Profile</span>
-										</a>
-									</li>
-									<li>
-										<a href="#edit">
-											<span class="link-collapse">Edit Profile</span>
-										</a>
-									</li>
-									<li>
-										<a href="#settings">
-											<span class="link-collapse">Settings</span>
-										</a>
-									</li>
-								</ul>
-							</div>
+							</a>
+							<div class="clearfix">
+                                <span>
+                                    {{ Auth::user()->name }}
+
+
+								</span>
+                            </div>
+
+
 						</div>
 					</div>
 					<ul class="nav nav-primary">
@@ -251,7 +231,7 @@
 							<div class="collapse" id="base">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="{{route('superadmin.kategori')}}">
+										<a href="{{route($role.'.kategori')}}">
 											<span class="sub-item">Kategori</span>
 										</a>
 									</li>
@@ -261,7 +241,7 @@
 						</li> --}}
 
                         <li class="nav-item">
-							<a href="{{route('superadmin.kategori')}}">
+							<a href="{{route($role.'.kategori')}}">
 								<i class="fa-solid fa-tag"></i>
 								<p>Kategori</p>
 
@@ -270,7 +250,7 @@
 						</li>
 
                         <li class="nav-item">
-							<a href="{{route('superadmin.berita')}}">
+							<a href="{{route($role.'.berita')}}">
                                 <i class="fa-solid fa-newspaper"></i>
 								<p>Berita</p>
 
@@ -278,17 +258,36 @@
 
 						</li>
 
+
                         <li class="nav-item">
-							<a href="{{route('superadmin.slider')}}">
+							<a href="{{route($role.'.galery')}}">
+                                <i class="fa-solid fa-newspaper"></i>
+								<p>Gallery</p>
+
+							</a>
+
+						</li>
+
+                        <li class="nav-item">
+							<a href="{{route($role.'.slider')}}">
                                 <i class="fa-solid fa-photo-film"></i>
-								<p>Photo</p>
+								<p>Video</p>
+
+							</a>
+
+						</li>
+
+                        <li class="nav-item">
+							<a href="{{route($role.'.halaman')}}">
+                                <i class="fa-solid fa-photo-film"></i>
+								<p>Halaman</p>
 
 							</a>
 
 						</li>
 
                         {{-- <li class="nav-item">
-							<a href="{{route('superadmin.berita')}}">
+							<a href="{{route($role.'.berita')}}">
                                 <i class="fa-solid fa-gear"></i>
 								<p>Pengaturan</p>
 
@@ -307,18 +306,22 @@
 							<div class="collapse" id="sidebarLayouts">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="sidebar-style-1.html">
+										<a href="{{route($role.'.instansi')}}">
 											<span class="sub-item">Instansi</span>
 										</a>
 									</li>
-									<li>
-										<a href="overlay-sidebar.html">
-											<span class="sub-item">Overlay Sidebar</span>
+                                    <li>
+										<a href="{{route($role.'.menu')}}">
+											<span class="sub-item">Menu</span>
 										</a>
 									</li>
 
+
+
 								</ul>
 							</div>
+
+
 						</li>
 
                         <li class="nav-item">
@@ -330,15 +333,22 @@
 							<div class="collapse" id="users">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="sidebar-style-1.html">
+										<a href="{{route($role.'.users')}}">
 											<span class="sub-item">Profil</span>
 										</a>
 									</li>
 									<li>
-										<a href="overlay-sidebar.html">
+										<a href="{{route($role.'.users_password')}}">
 											<span class="sub-item">Keamanan</span>
 										</a>
 									</li>
+                                    @if(Auth::user()->role_id == 1)
+                                    <li>
+										<a href="{{route($role.'.users_all')}}">
+											<span class="sub-item">Tambah User</span>
+										</a>
+									</li>
+                                    @endif
 
 								</ul>
 							</div>

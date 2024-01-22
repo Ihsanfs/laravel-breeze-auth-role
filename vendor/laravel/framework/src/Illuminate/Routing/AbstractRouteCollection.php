@@ -232,25 +232,30 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
         $name = $route->getName();
 
         if (
-            ! is_null($name)
-            && str_ends_with($name, '.')
-            && ! is_null($symfonyRoutes->get($name))
+            is_null($name)
+            || !is_null($symfonyRoutes->get($name))
         ) {
-            $name = null;
-        }
-
-        if (! $name) {
-            $route->name($this->generateRouteName());
+            // If the route has no name or the name is already taken, generate a unique name
+            $name = $this->generateUniqueRouteName($route->uri());
+            $route->name($name);
 
             $this->add($route);
-        } elseif (! is_null($symfonyRoutes->get($name))) {
+        } elseif (!is_null($symfonyRoutes->get($name))) {
             throw new LogicException("Unable to prepare route [{$route->uri}] for serialization. Another route has already been assigned name [{$name}].");
         }
 
-        $symfonyRoutes->add($route->getName(), $route->toSymfonyRoute());
+        $symfonyRoutes->add($name, $route->toSymfonyRoute());
 
         return $symfonyRoutes;
     }
+
+    protected function generateUniqueRouteName($uri)
+    {
+        // Implement your logic to generate a unique route name based on the URI
+        // You might append a timestamp, a unique identifier, or use a hash
+        return 'route_' . md5($uri . microtime());
+    }
+
 
     /**
      * Get a randomly generated route name.

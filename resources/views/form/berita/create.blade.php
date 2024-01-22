@@ -6,7 +6,9 @@
     <div class="row">
 
         <div class=" col-6 col-md-12">
-            <form action="" method="POST" enctype="multipart/form-data">
+
+            <form action="{{route($role.'.berita_store')}}" method="POST" enctype="multipart/form-data">
+
                 @csrf
             <div class="form-group">
                 <label>judul</label>
@@ -22,9 +24,9 @@
                 <label>Kategori</label>
 
                 <select name="kategori_id" id="" class="form-control">
-                    {{-- @foreach ($kategori_all as $item)
+                    @foreach ($kategori_all as $item)
                     <option value="{{$item->id}}">{{$item->nama_kategori}}</option>
-                    @endforeach --}}
+                    @endforeach
 
                 </select>
 
@@ -34,12 +36,12 @@
 
             <div class="form-group">
                 <label>Gambar</label>
-                <input type="file" name="gambar_artikel"  class="form-control" >
+                <input type="file" name="gambar_file"  class="form-control" >
             </div>
 
 
             <div class="form-group">
-                <label>Gambar</label>
+                <label>Status</label>
                 <select name="is_active" id="" class="form-control">
                     <option value="1">publish</option>
                     <option value="0">draft</option>
@@ -50,10 +52,11 @@
             </div>
 
 
-            <button type="submit" class="btn btn-primary">Send message</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>
             </div>
+
     </div>
 </div>
 @endsection
