@@ -9,8 +9,8 @@
         <div class="card card-dark bg-primary-gradient">
             <div class="card-body pb-0">
                 {{-- <div class="h1 fw-bold float-right">+5%</div> --}}
-                <h2 class="mb-2">{{ Auth::user()->id }}</h2>
-                <p>{{ Auth::user()->name }}</p>
+                <h2 class="mb-2">{{ Auth::user()->count() }}</h2>
+                <p>Jumlah User</p>
 
             </div>
         </div>
@@ -29,8 +29,8 @@
         <div class="card card-dark bg-primary-gradient">
             <div class="card-body pb-0">
                 {{-- <div class="h1 fw-bold float-right">+5%</div> --}}
-                <h2 class="mb-2">{{ Auth::user()->id }}</h2>
-                <p>{{ Auth::user()->name }}</p>
+                <h2 class="mb-2">{{ $berita }}</h2>
+                <p> Jumlah Berita </p>
 
             </div>
         </div>

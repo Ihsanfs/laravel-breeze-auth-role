@@ -15,9 +15,10 @@ class SuperadminController extends Controller
 {
     public function index()
     {
+        $berita = artikel::count();
         $userRole = Auth::user()->role_id;
         $role = ($userRole == 2) ? 'admin' : 'superadmin';
-        return view('admin.index', compact('role'));
+        return view('admin.index', compact('role','berita'));
     }
 
     public function kategori()
@@ -41,7 +42,7 @@ class SuperadminController extends Controller
 {
     $userRole = Auth::user()->role_id;
     $role = ($userRole == 2) ? 'admin' : 'superadmin';
-    $berita = Artikel::with('kategori')->get();
+    $berita = Artikel::with('kategori')->paginate(10);
     return view('form.berita.index', compact('berita', 'role'));
 }
 

@@ -26,13 +26,11 @@
             </thead>
 
             <tbody>
-                @php
-                $no = 1;
-                @endphp
 
-                @forelse($berita as $item)
+
+                @forelse($berita as $key=> $item)
                     <tr>
-                        <td>{{$no++}}</td>
+                        <td>{{$berita->firstItem() + $key}}</td>
                         <td>{{$item->judul}}</td>
                         <td>{{$item->slug}}</td>
                         <td>{!!$item->body!!}</td>
@@ -71,5 +69,6 @@
 
         </table>
     </div>
+    {!! $berita->render() !!}
 </div>
 @endsection
