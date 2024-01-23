@@ -3,11 +3,7 @@
 @section('content')
 <div class="card-body">
 
-    @if(Session::has('success'))
-    <div class="alert alert-primary">
-        {{Session('success')}}
-    </div>
-    @endif
+    @include('alert.alert')
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover" >
             <a href="{{route($role.'.galery_create')}}" class="btn btn-secondary btn-round">Add Gallery</a>
@@ -27,7 +23,7 @@
                     <tr>
                         <td>{{$key+1}}</td>
                         <td>{{$item->nama}}</td>
-                        <td><img src="{{asset($item->gambar_galery)}}" alt="" style="max-width: 150px"></td>
+                        <td><img src="{{asset($item->gambar_galery)}}" alt="" class="img-thumbnail mb-2 mt-2" style="max-width: 150px"></td>
                         <td>
                             @if($item->is_active == 1)
                                Published
@@ -52,3 +48,4 @@
     </div>
 </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -21,4 +21,14 @@ class FrontController extends Controller
 
         dd($artikel);
     }
+
+    public function urutan(){
+
+        //halaman urut
+        $halaman = halaman::leftjoin('menu', 'halaman.menu_id', '=', 'menu.id')->select('halaman.id','halaman.nama','halaman.page_halaman')
+        ->orderBy('page_halaman', 'ASC')
+        ->get();
+
+       return view('front.index',compact('halaman'));
+    }
 }

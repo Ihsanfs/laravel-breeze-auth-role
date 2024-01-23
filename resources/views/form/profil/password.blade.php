@@ -1,13 +1,11 @@
 @extends('layouts.dashboard')
 @section('content')
+@include('alert.alert')
     <div class="container">
         <h2 class="text-white">Keamanan Users</h2>
         <div class="col-6 col-md-12 ml-auto text-right">
 
         </div>
-
-
-
 
         @if($user)
         <div class="row py-4">
@@ -37,3 +35,4 @@
     </div>
     </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

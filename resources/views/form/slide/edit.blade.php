@@ -1,11 +1,13 @@
 
 @extends('layouts.dashboard')
 @section('content')
+@include('alert.alert')
 <div class="card-body">
     <div class="row">
 
         <div class="col-md-6 col-lg-6">
-            <form action="#" method="POST" enctype="multipart/form-data">
+            <form action="{{ route($role.'.video_update', ['id' => $slide->id]) }}" method="POST" enctype="multipart/form-data">
+                @method('PUT')
                 @csrf
             <div class="form-group">
                 <label>judul</label>
@@ -34,7 +36,10 @@
                 </div>
 
             </div>
-
+            <div class="form-group">
+                <label>Video</label>
+                <input type="file" name="video_slide" class="form-control"  >
+            </div>
 
             <div class="form-group">
                 <label>status</label>
@@ -46,7 +51,7 @@
             </div>
 
 
-            <button type="submit" class="btn btn-primary">Send message</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>
             </div>
@@ -54,3 +59,4 @@
     </div>
 </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

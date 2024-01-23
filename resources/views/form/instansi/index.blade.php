@@ -1,5 +1,6 @@
 @extends('layouts.dashboard')
 @section('content')
+@include('alert.alert')
     <div class="container">
         <h2 class="text-white">Profil Instansi</h2>
         <div class="col-6 col-md-12 ml-auto text-right">
@@ -9,7 +10,7 @@
                 <a href="{{ route($role.'.instansi_create') }}" class="btn btn-warning">Buat Profil</a>
             @endif
         </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 

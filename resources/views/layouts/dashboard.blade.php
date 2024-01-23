@@ -18,6 +18,7 @@
 			}
 		});
 	</script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="{{asset('../assets/css/bootstrap.min.css')}}">
@@ -34,10 +35,7 @@
 			<!-- Logo Header -->
 			<div class="logo-header" data-background-color="dark2">
 
-				<a href="index.html" class="logo">
-					<img src="{{ asset('../assets/img/logo.svg') }}" alt="navbar brand" class="navbar-brand">
 
-				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
 						<i class="icon-menu"></i>
@@ -80,7 +78,7 @@
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
 								<div class="avatar-sm">
-									<img src="{{ asset('../assets/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
+								  <img src="{{ asset(Auth::user()->gambar) }}" alt="image profile" class="avatar-img rounded-circle">
 
 								</div>
 							</a>
@@ -88,18 +86,20 @@
 								<div class="dropdown-user-scroll scrollbar-outer">
 									<li>
 										<div class="user-box">
-											<div class="avatar-lg"><img src="{{ asset('../assets/img/profile.jpg') }}" alt="image profile" class="avatar-img rounded">
+											<div class="avatar-lg">
+                                                <img src="{{ asset(Auth::user()->gambar) }}" alt="image profile" class="avatar-img rounded">
+
                                             </div>
 											<div class="u-text">
 
 												<h4>{{ Auth::user()->name }}</h4>
-												<p class="text-muted">{{ Auth::user()->email }}</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+												<p class="text-muted">{{ Auth::user()->email }}</p><a href="{{route($role.'.users')}}" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
 											</div>
 										</div>
 									</li>
 									<li>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">My Profile</a>
+										{{-- <div class="dropdown-divider"></div> --}}
+										{{-- <a class="dropdown-item" href="#">My Profile</a> --}}
 
 										<div class="dropdown-divider"></div>
                                         <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -125,25 +125,17 @@
 			<div class="sidebar-wrapper scrollbar scrollbar-inner">
 				<div class="sidebar-content">
 					<div class="user">
-						<div class="avatar-sm float-left mr-2">
-							<img src="{{ asset('../assets/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
-
-						</div>
-						<div class="info">
-							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-
-							</a>
-							<div class="clearfix">
-                                <span>
-                                    {{ Auth::user()->name }}
-
-
-								</span>
+                        <div class="avatar-sm float-left mr-2">
+                            <img src="{{ asset(Auth::user()->gambar) }}" alt="image profile" class="avatar-img rounded-circle">
+                        </div>
+                        <div class="info">
+                            <a data-toggle="collapse" href="#collapseExample" aria-expanded="true"></a>
+                            <div class="clearfix">
+                                <span>{{ Auth::user()->name }}</span>
                             </div>
+                        </div>
+                    </div>
 
-
-						</div>
-					</div>
 					<ul class="nav nav-primary">
 						<li class="nav-item active">
 							<a  href="{{route($role.'.dashboard')}}" class="collapsed" >
@@ -220,7 +212,7 @@
 						</li>
 
                         <li class="nav-item">
-							<a href="{{route($role.'.slider')}}">
+							<a href="{{route($role.'.video')}}">
                                 <i class="fa-solid fa-photo-film"></i>
 								<p>Video</p>
 
@@ -451,7 +443,7 @@
 
 <!-- Atlantis DEMO methods, don't include it in your project! -->
 <script src="{{ asset('../assets/js/setting-demo.js') }}"></script>
-<script src="{{ asset('../assets/js/demo.js') }}"></script>
+
 
 	<script>
 		$('#lineChart').sparkline([102,109,120,99,110,105,115], {
@@ -481,10 +473,5 @@
 			fillColor: 'rgba(255, 255, 255, .15)'
 		});
 	</script>
-     <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
-     <script>
-        CKEDITOR.replace( 'editor1' );
-        config.sourceAreaTabSize = 8;
-</script>
 </body>
 </html>

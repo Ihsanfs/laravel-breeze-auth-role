@@ -1,5 +1,6 @@
 @extends('layouts.dashboard')
 @section('content')
+@include('alert.alert')
     <div class="container">
         <h2 class="text-white">Profil Instansi</h2>
         <div class="row py-4">
@@ -61,3 +62,4 @@
         </div>
     </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

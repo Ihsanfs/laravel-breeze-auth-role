@@ -2,8 +2,6 @@
 @section('content')
     <div class="container">
         <h2 class="text-white">Profil Users</h2>
-
-
         <div class="row py-4">
                 <div class="col-12 col-md-6 mb-2">
                     <form action="{{ route('superadmin.users_store') }}" class="col-md-auto" method="POST" enctype="multipart/form-data">

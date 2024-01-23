@@ -1,8 +1,10 @@
 @extends('layouts.dashboard')
 @section('content')
+@include('alert.alert')
+
 <div class="card-body">
     <div class="row">
-        <div class="col-md-12 col-lg-8">
+        <div class="col-md-12 col-lg-12">
             <form action="{{ route($role.'.halaman_store') }}" method="POST"  enctype="multipart/form-data">
                 @method('POST')
                 @csrf
@@ -27,6 +29,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="urut">Urutan halaman</label>
+                    <input type="number" name="urutan" class="form-control">
+                </div>
+
+                <div class="form-group">
                     <label>Status</label>
                     <select name="is_active" id="" class="form-control">
                         <option value="1">publish</option>
@@ -41,3 +48,9 @@
     </div>
 </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+     <script>
+        CKEDITOR.replace( 'editor1' );
+        config.sourceAreaTabSize = 8;
+</script>

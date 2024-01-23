@@ -20,8 +20,9 @@ class FotoController extends Controller
     }
 
     public function create(){
-
-   return view('form.gallery.create');
+        $userRole = Auth::user()->role_id;
+        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+   return view('form.gallery.create',compact('role'));
     }
 
     public function store(Request $request)
@@ -29,7 +30,7 @@ class FotoController extends Controller
         $this->validate($request, [
             'judul' => 'required',
             'gambar_galery' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_active' => 'required', // Assuming is_active is a required field
+            'is_active' => 'required',
         ]);
 
         $gallery = new Gallery();
@@ -68,11 +69,11 @@ class FotoController extends Controller
 
     public function update(Request $request,$id){
 
-        // $this->validate($request, [
-        //     'judul' => 'required',
-        //     'gambar_galery' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        $this->validate($request, [
+            'judul' => 'required',
+            'gambar_galery' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
 
-        // ]);
+        ]);
         $userRole = Auth::user()->role_id;
         $role = ($userRole == 2) ? 'admin' : 'superadmin';
         $artikel = Gallery::find($id);

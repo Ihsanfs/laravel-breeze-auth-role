@@ -3,11 +3,7 @@
 @section('content')
 <div class="card-body">
 
-    @if(Session::has('success'))
-    <div class="alert alert-primary">
-        {{Session('success')}}
-    </div>
-    @endif
+    @include('alert.alert')
 
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover" >
@@ -24,6 +20,7 @@
                     <th>Author</th>
                     <th>Deskripsi</th>
                     <th>status</th>
+                    <th>Urutan Halaman</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -43,6 +40,8 @@
                     <td>{{$item->author_halaman->name}}</td>
                     <td>{!! $item->deskripsi !!}</td>
                     <td>{{$item->is_active}}</td>
+                    <td>{{$item->page_halaman}}</td>
+
                     <td>
 
                         <a href="{{ route($role. '.halaman_edit', $item->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> edit</a>
@@ -61,3 +60,4 @@
     </div>
 </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

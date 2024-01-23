@@ -1,5 +1,6 @@
 @extends('layouts.dashboard')
 @section('content')
+@include('alert.alert')
 <div class="card-body">
     <div class="row">
         <div class="col-md-6 col-lg-6">
@@ -34,3 +35,4 @@
 </div>
 
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

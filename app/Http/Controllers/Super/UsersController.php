@@ -48,27 +48,45 @@ class UsersController extends Controller
     }
     public function store(Request $request){
 
-        $roles = Role::find($request->role);
-        $users = new User();
-        $rand = rand(10, 999);
-        $users->name = $request->nama;
-        $users->role_id = $roles->id;
-        $users->password = Hash::make($request->password);
-        $users->email = $request->email;
-        $users->is_active = $request->is_active;
-        if ($request->hasFile('gambar_user')) {
-            $file = $request->file('gambar_user');
-            $fileName = $rand . '_' . $file->getClientOriginalName();
-            $filePath = 'images/profil/' . $fileName;
-            $file->move(public_path('images/profil'), $fileName);
-            $users->gambar = $filePath;
+        try {
+            $this->validate($request, [
+                'judul' => 'required',
+                'gambar_user' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'is_active' => 'required',
+                'role' => 'required',
+                'nama' => 'required',
+                'password' => 'required',
+
+            ]);
+
+            $roles = Role::find($request->role);
+
+            if (!$roles) {
+                return back()->with(['error' => 'Role not found']);
+            }
+
+            $users = new User();
+            $rand = rand(10, 999);
+            $users->name = $request->nama;
+            $users->role_id = $roles->id;
+            $users->password = Hash::make($request->password);
+            $users->email = $request->email;
+            $users->is_active = $request->is_active;
+
+            if ($request->hasFile('gambar_user')) {
+                $file = $request->file('gambar_user');
+                $fileName = $rand . '_' . $file->getClientOriginalName();
+                $filePath = 'images/profil/' . $fileName;
+                $file->move(public_path('images/profil'), $fileName);
+                $users->gambar = $filePath;
+            }
+
+            $users->save();
+
+            return redirect()->route('superadmin.users')->with(['success' => 'Data berhasil ditambahkan']);
+        } catch (\Exception $e) {
+            return back()->with(['error' => 'Data gagal ditambahkan' . $e->getMessage()]);
         }
-
-        // dd($users);
-        $users->save();
-
-
-        return redirect()->route( 'superadmin.users')->with(['succes' => 'data berhasil di tambahkan']);
     }
 
     public function edit($id)
@@ -101,7 +119,7 @@ class UsersController extends Controller
 
     public function tampil_user(){
 
-        $user = User::paginate(3);
+        $user = User::paginate(5);
         $userRole = Auth::user()->role_id;
         $role = ($userRole == 2) ? 'admin' : 'superadmin';
         return view('form.profil.tampil_user',compact('user','role'));
@@ -135,6 +153,38 @@ public function hapus_user($id){
     $user = User::find($id);
     $user->delete();
     return back()->with(['success'=>'user berhasil di hapus']);
+}
+
+public function edit_user($id){
+
+    $user = User::find($id);
+    $roles = Role::all();
+    $userRole = Auth::user()->role_id;
+    $role = ($userRole == 1) ? 'superadmin' : '';
+    return view('form.profil.user_edit',compact('user','roles','role'));
+
+}
+
+public function update_user(Request $request, $id){
+    try {
+    $user = User::find($id);
+    $user->name = $request->nama;
+    $user->is_active = $request->is_active;
+    $user->role_id = $request->role;
+    if ($request->hasFile('gambar_user')) {
+        $file = $request->file('gambar_user');
+        $fileName = $file->getClientOriginalName();
+        $filePath = 'images/profil/' . $fileName;
+        $file->move(public_path('images/profil/'), $fileName);
+        $user->gambar = $filePath;
+    }
+
+    $user->update();
+
+    return redirect()->route('superadmin.users_all')->with(['success' => 'Data berhasil update']);
+            } catch (\Exception $e) {
+                return back()->with(['error' => 'Data gagal di update']);
+            }
 }
 
 }

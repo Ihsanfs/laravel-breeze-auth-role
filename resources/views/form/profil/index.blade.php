@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 @section('content')
-    <div class="container">
+        @include('alert.alert')
         <h2 class="text-white">Profil Users</h2>
         <div class="col-6 col-md-12 ml-auto text-right">
 
@@ -34,5 +34,6 @@
                     </div>
                 </div>
         @endif
-    </div>
+
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

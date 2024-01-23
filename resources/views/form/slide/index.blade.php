@@ -1,16 +1,11 @@
 
 @extends('layouts.dashboard')
 @section('content')
+@include('alert.alert')
 <div class="card-body">
-
-    @if(Session::has('success'))
-    <div class="alert alert-primary">
-        {{Session('success')}}
-    </div>
-    @endif
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover" >
-            <a href="{{route($role.'.slider_add')}}" class="btn btn-secondary btn-round">Add Video</a>
+            <a href="{{route($role.'.video_add')}}" class="btn btn-secondary btn-round">Add Video</a>
             <thead>
 
 
@@ -56,8 +51,8 @@
                         @endif
 
                     </td>
-                    <td><a href="{{ route($role.'.slider_edit', ['id' => $item->id]) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
-                        <form action="{{ route($role.'.slider_delete', ['id' => $item->id]) }}" method="post" style="display: inline;">
+                    <td><a href="{{ route($role.'.video_edit', ['id' => $item->id]) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                        <form action="{{ route($role.'.video_delete', ['id' => $item->id]) }}" method="post" style="display: inline;">
                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('apakah anda ingin menghapus ?')">Delete</button>
@@ -81,3 +76,4 @@
     </div>
 </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -1,10 +1,11 @@
 @extends('layouts.dashboard')
 @section('content')
+@include('alert.alert')
 <div class="card-body">
     <div class="row">
 
         <div class="col-md-6 col-lg-6">
-            <form action="{{route($role.'.slider_store')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route($role.'.video_store')}}" method="POST" enctype="multipart/form-data">
                 @method('post')
                 @csrf
             <div class="form-group">
@@ -19,14 +20,14 @@
 
 
             <div class="form-group">
-                <label>Gambar</label>
-                <input type="file" name="video_slide"  >
+                <label>Video</label>
+                <input type="file" name="video_slide" class="form-control"  >
             </div>
 
 
             <div class="form-group">
                 <label>status</label>
-                <select name="is_active" id="">
+                <select name="is_active" id="" class="form-control" >
                     <option value="1">publish</option>
                     <option value="0">draft</option>
 
@@ -44,3 +45,4 @@
     </div>
 </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

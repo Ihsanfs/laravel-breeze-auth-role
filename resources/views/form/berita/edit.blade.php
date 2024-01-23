@@ -1,6 +1,7 @@
 
 @extends('layouts.dashboard')
 @section('content')
+@include('alert.alert')
 <div class="card-body">
     <div class="row">
 
@@ -71,3 +72,9 @@
         </div>
     </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+     <script>
+        CKEDITOR.replace( 'editor1' );
+        config.sourceAreaTabSize = 8;
+</script>

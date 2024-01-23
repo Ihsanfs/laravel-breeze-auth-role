@@ -32,8 +32,28 @@ class HalamanController extends Controller
     public function store(Request $request)
     {
 
-            $menu = menu::find($request->nama_h);
+        try {
+            // Validation rules
+            $validationRules = [
+                'nama_h' => 'required',
+                'deskripsi_h' => 'required',
+                'urutan' => 'required|integer',
+                'is_active' => 'required|boolean',
+                'g_halaman' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ];
 
+
+            $validationMessages = [
+                'g_halaman.max' => 'The :attribute size should not exceed 2048 KB.',
+            ];
+
+            $this->validate($request, $validationRules, $validationMessages);
+
+            $menu = Menu::find($request->nama_h);
+
+            if (!$menu) {
+                return back()->with(['error' => 'Menu not found']);
+            }
 
             $halaman = new Halaman();
             $halaman->menu_id = $menu->id;
@@ -41,6 +61,7 @@ class HalamanController extends Controller
             $halaman->slug = Str::slug($menu->nama);
             $halaman->deskripsi = $request->deskripsi_h;
             $halaman->view = 0;
+            $halaman->page_halaman = $request->urutan;
             $halaman->is_active = $request->is_active;
             $halaman->user_id = Auth::id();
             $rand = rand(10, 999);
@@ -59,6 +80,9 @@ class HalamanController extends Controller
             $role = ($userRole == 2) ? 'admin' : 'superadmin';
 
             return redirect()->route($role . '.halaman')->with(['success' => 'Halaman berhasil ditambahkan']);
+        } catch (\Exception $e) {
+            return back()->with(['error' => 'Error: ' . $e->getMessage()]);
+        }
 
     }
 
@@ -81,6 +105,7 @@ class HalamanController extends Controller
         $halaman->nama = $menu->nama;
         $halaman->slug = Str::slug($menu->nama);
         $halaman->deskripsi = $request->deskripsi_h;
+        $halaman->page_halaman = $request->urutan;
         $halaman->user_id = Auth::user()->id;
         $halaman->is_active = $request->is_active;
         if (!$request->hasFile('g_halaman')) {

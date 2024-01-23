@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Super;
 
 use App\Http\Controllers\Controller;
 use App\Models\artikel;
+use App\Models\Gallery;
+use App\Models\halaman;
 use App\Models\kategori;
-
+use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +19,12 @@ class SuperadminController extends Controller
     {
         $berita = artikel::count();
         $userRole = Auth::user()->role_id;
+        $halaman = halaman::count();
+        $video = Slide::count();
+        $galery = Gallery::count();
+
         $role = ($userRole == 2) ? 'admin' : 'superadmin';
-        return view('admin.index', compact('role','berita'));
+        return view('admin.index', compact('role','berita','halaman','video','galery'));
     }
 
     public function kategori()
@@ -77,13 +83,15 @@ public function slider_add()
             'nama_kategori' => 'required'
         ]);
 
+        $userRole = Auth::user()->role_id;
+        $role = ($userRole == 2) ? 'admin' : 'superadmin';
 
         kategori::create([
             'nama_kategori' => $request->nama_kategori,
             'slug' => Str::slug($request->nama_kategori)
         ]);
 
-        return redirect()->back()->with(['success' => 'data berhasil ditambahkan']);
+        return redirect()->route($role.'.kategori')->with(['success'=>'Kategori berhasil di tambahkan']);
     }
 
 
@@ -119,36 +127,41 @@ public function slider_add()
 
     public function berita_store(Request $request)
     {
-        $this->validate($request, [
-            'judul' => 'required',
-            'gambar_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        try {
+            $this->validate($request, [
+                'judul' => 'required',
+                'gambar_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'body' => 'required',
+                'is_active' => 'required',
+            ]);
 
-        ]);
+            $berita = new Artikel();
+            $berita->judul = $request->judul;
+            $berita->slug = Str::slug($request->judul);
+            $berita->user_id = Auth::id();
+            $berita->body = $request->body;
 
+            if ($request->hasFile('gambar_file')) {
+                $rand = rand(10, 999);
+                $file = $request->file('gambar_file');
+                $fileName = $file->getClientOriginalName();
+                $filePath = 'images/artikel/' . $rand . $fileName;
+                $file->move(public_path('images/artikel'), $rand . $fileName);
+                $berita->gambar_artikel = $filePath;
+            }
 
-        $berita = new artikel;
-        $berita->judul = $request->judul;
-        $berita->slug = Str::slug($request->judul);
-        $berita->user_id = Auth::id();
-        $berita->body = $request->body;
-        if ($request->hasFile('gambar_file')) {
-            $rand = rand(10, 999);
-            $file = $request->file('gambar_file');
-            $fileName = $file->getClientOriginalName();
-            $filePath = 'images/artikel/' . $rand . $fileName; // Menggunakan $rand di sini
-            $file->move(public_path('images/artikel'), $rand . $fileName); // Menggunakan $rand di sini
+            $berita->kategori_id = $request->kategori_id;
+            $berita->is_active = $request->is_active;
 
-            $berita->gambar_artikel = $filePath;
+            $berita->save();
+
+            $userRole = Auth::user()->role_id;
+            $role = ($userRole == 2) ? 'admin' : 'superadmin';
+
+            return redirect()->route($role . '.berita')->with(['success' => 'Artikel berhasil ditambahkan']);
+        } catch (\Exception $e) {
+            return back()->with(['error' => 'Error: ' . $e->getMessage()]);
         }
-
-        $berita->kategori_id = $request->kategori_id;
-        $berita->is_active = $request->is_active;
-
-
-        $berita->save();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
-        return redirect()->route($role. '.berita')->with(['success' => 'artikel berhasil di tambahkan']);
     }
 
 
@@ -163,40 +176,55 @@ public function slider_add()
 
     public function berita_update(Request $request, $id)
     {
-        $artikel = artikel::find($id);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
-        if (!$request->hasFile('gambar_file')) {
-
-            $artikel->judul = $request->judul;
-            $artikel->slug = Str::slug($request->judul);
-            $artikel->user_id = Auth::id();
-            $artikel->kategori_id = $request->kategori_id;
-            $artikel->body = $request->body;
-            $artikel->is_active = $request->is_active;
-            $artikel->update();
-
-            return redirect()->route($role.'.berita')->with(['success' => 'Artikel berhasil diupdate']);
-        } else {
-            // File uploaded, update file and other fields
-            $file = $request->file('gambar_file');
-            $fileName = $file->getClientOriginalName();
-            $filePath = 'images/artikel/' . $fileName;
-            $file->move(public_path('images/artikel'), $fileName);
 
 
-            $artikel->judul = $request->judul;
-            $artikel->slug = Str::slug($request->judul);
-            $artikel->user_id = Auth::id();
-            $artikel->kategori_id = $request->kategori_id;
-            $artikel->body = $request->body;
-            $artikel->is_active = $request->is_active;
-            $artikel->gambar_artikel = $filePath;
+        try {
+            $this->validate($request, [
+                'judul' => 'required',
+                'body' => 'required',
+                'is_active' => 'required',
+            ]);
 
-            $artikel->update();
+            $artikel = Artikel::find($id);
+
+            if (!$artikel) {
+                return back()->with(['error' => 'Artikel not found']);
+            }
+
             $userRole = Auth::user()->role_id;
             $role = ($userRole == 2) ? 'admin' : 'superadmin';
-            return redirect()->route( $role.'.berita')->with(['success' => 'Artikel berhasil diupdate']);
+
+            if (!$request->hasFile('gambar_file')) {
+                // No new file uploaded, update other fields
+                $artikel->judul = $request->judul;
+                $artikel->slug = Str::slug($request->judul);
+                $artikel->user_id = Auth::id();
+                $artikel->kategori_id = $request->kategori_id;
+                $artikel->body = $request->body;
+                $artikel->is_active = $request->is_active;
+                $artikel->update();
+
+                return redirect()->route($role . '.berita')->with(['success' => 'Artikel berhasil diupdate']);
+            } else {
+                // File uploaded, update file and other fields
+                $file = $request->file('gambar_file');
+                $fileName = $file->getClientOriginalName();
+                $filePath = 'images/artikel/' . $fileName;
+                $file->move(public_path('images/artikel'), $fileName);
+
+                $artikel->judul = $request->judul;
+                $artikel->slug = Str::slug($request->judul);
+                $artikel->user_id = Auth::id();
+                $artikel->kategori_id = $request->kategori_id;
+                $artikel->body = $request->body;
+                $artikel->is_active = $request->is_active;
+                $artikel->gambar_artikel = $filePath;
+                $artikel->update();
+
+                return redirect()->route($role . '.berita')->with(['success' => 'Artikel berhasil diupdate']);
+            }
+        } catch (\Exception $e) {
+            return back()->with(['error' => 'Error: ' . $e->getMessage()]);
         }
     }
 

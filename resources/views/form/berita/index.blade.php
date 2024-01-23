@@ -3,11 +3,7 @@
 @section('content')
 <div class="card-body">
 
-    @if(Session::has('success'))
-    <div class="alert alert-primary">
-        {{Session('success')}}
-    </div>
-    @endif
+    @include('alert.alert')
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover" >
             <a href="{{route($role.'.berita_add')}}" class="btn btn-secondary btn-round">Add Berita</a>
@@ -31,8 +27,8 @@
                 @forelse($berita as $key=> $item)
                     <tr>
                         <td>{{$berita->firstItem() + $key}}</td>
-                        <td>{{$item->judul}}</td>
-                        <td>{{$item->slug}}</td>
+                        <td >{{$item->judul}}</td>
+                        <td class="">{{$item->slug}}</td>
                         <td>{!!$item->body!!}</td>
                         <td>
                             @if(isset($item->kategori))
@@ -41,7 +37,10 @@
                               Kategori tidak ada
                             @endif
                         </td>
-                        <td><img width="150px" src="{{asset($item->gambar_artikel)}}"></td>
+                        <td>
+                            <img src="{{ asset($item->gambar_artikel) }}" style="height:60px" class="rounded img-thumbnail mb-2 mt-2" alt="gambar artikel">
+                        </td>
+
                         <td>
                             @if($item->is_active == 1)
                                 Publish
@@ -49,7 +48,8 @@
                                 Draft
                             @endif
                         </td>
-                        <td>
+                        <td >
+
                             <a href="{{ route($role.'.berita_edit', ['id' => $item->id]) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
                             <form action="{{ route($role.'.berita_delete', ['id' => $item->id]) }}" method="post" style="display: inline;">
                                 @csrf
@@ -72,3 +72,4 @@
     {!! $berita->render() !!}
 </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -3,12 +3,7 @@
 
 
     <div class="card-body">
-
-        @if (Session::has('success'))
-            <div class="alert alert-primary">
-                {{ Session('success') }}
-            </div>
-        @endif
+        @include('alert.alert')
         <div class="col-2">
             <a href="{{ route($role.'.users_create') }}" class="btn btn-info">Tambah User</a>
         </div>
@@ -63,7 +58,9 @@
                             </a>
 
 
-
+                            <a href="{{ route('superadmin.users_edit_data', ['id' => $row->id]) }}" class="btn btn-info btn-sm">
+                                edit
+                            </a>
 
                          </td>
 
@@ -82,3 +79,4 @@
 
 @endsection
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

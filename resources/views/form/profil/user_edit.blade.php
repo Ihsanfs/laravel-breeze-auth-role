@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 @section('content')
-    <div class="container">
+
         <h2 class="text-white">Profil Users</h2>
 
         @if($user)
         <div class="row py-4">
                 <div class="col-12 col-md-6 mb-2">
-                    <form action="{{ route($role.'.users_update', $user->id) }}" class="col-md-auto" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route($role.'.users_edit_data_update', $user->id) }}" class="col-md-auto" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                     <div class="form-group">
@@ -54,7 +54,7 @@
                 <div class="col-12 col-md-12 mb-2">
                     <button class="btn btn-info col-md-12">Submit</button>
                 </div>
-           
+            </form>
         </div>
         @endif
     </div>

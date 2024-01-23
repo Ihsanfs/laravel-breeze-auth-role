@@ -1,12 +1,7 @@
 @extends('layouts.dashboard')
 @section('content')
     <div class="card-body">
-
-        @if (Session::has('success'))
-            <div class="alert alert-primary">
-                {{ Session('success') }}
-            </div>
-        @endif
+        @include('alert.alert')
         <div class="table-responsive">
             <table id="basic-datatables" class="display table table-striped table-hover">
                 @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
@@ -56,3 +51,4 @@
         </div>
     </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
