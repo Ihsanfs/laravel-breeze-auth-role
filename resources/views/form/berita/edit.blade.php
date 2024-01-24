@@ -17,9 +17,9 @@
 
             <div class="form-group">
                 <label>isi</label>
-                {{-- <textarea name="body" id="" cols="30" rows="10" class="form-control">{!! $berita->body !!}</textarea> --}}
+
                 <textarea name="body" id="editor1"  cols="30" rows="10">{!! $berita->body !!}</textarea>
-                
+
             </div>
 
             <div class="form-group">

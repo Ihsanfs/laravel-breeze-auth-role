@@ -131,7 +131,7 @@
                         <div class="info">
                             <a data-toggle="collapse" href="#collapseExample" aria-expanded="true"></a>
                             <div class="clearfix">
-                                <span>{{ Auth::user()->name }}</span>
+                                <p>{{ Auth::user()->name }}</p>
                             </div>
                         </div>
                     </div>

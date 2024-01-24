@@ -25,6 +25,7 @@
                 <label>Kategori</label>
 
                 <select name="kategori_id" id="" class="form-control">
+                    <option value=""  disabled selected>Pilih Kategori</option>
                     @foreach ($kategori_all as $item)
                     <option value="{{$item->id}}">{{$item->nama_kategori}}</option>
                     @endforeach
@@ -44,6 +45,7 @@
             <div class="form-group">
                 <label>Status</label>
                 <select name="is_active" id="" class="form-control">
+                    <option value=""  disabled selected>Pilih Status</option>
                     <option value="1">publish</option>
                     <option value="0">draft</option>
 

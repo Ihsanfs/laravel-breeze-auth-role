@@ -59,7 +59,7 @@
 
 
                             <a href="{{ route('superadmin.users_edit_data', ['id' => $row->id]) }}" class="btn btn-info btn-sm">
-                                edit
+                                <i class="fa-solid fa-user"></i>  edit
                             </a>
 
                          </td>

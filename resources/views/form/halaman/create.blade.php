@@ -36,6 +36,7 @@
                 <div class="form-group">
                     <label>Status</label>
                     <select name="is_active" id="" class="form-control">
+                        <option value=""  disabled selected>Pilih Status</option>
                         <option value="1">publish</option>
                         <option value="0">draft</option>
 
