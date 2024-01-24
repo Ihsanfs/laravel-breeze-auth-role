@@ -39,7 +39,14 @@
 
                     <td>{{$item->author_halaman->name}}</td>
                     <td>{!! $item->deskripsi !!}</td>
-                    <td>{{$item->is_active}}</td>
+                    <td>
+                        @if($item->is_active == 1)
+                            Publish
+                        @else
+                            Draft
+                        @endif
+
+                    </td>
                     <td>{{$item->page_halaman}}</td>
 
                     <td>

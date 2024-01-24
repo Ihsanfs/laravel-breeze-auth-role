@@ -32,6 +32,7 @@ class HalamanController extends Controller
     public function store(Request $request)
     {
 
+      
         try {
             // Validation rules
             $validationRules = [

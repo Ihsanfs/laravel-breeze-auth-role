@@ -61,6 +61,10 @@ Route::middleware(['auth', 'verified', 'role:1'])
             //berita
             Route::get('/berita', [Super\SuperadminController::class, 'berita'])
             ->name('berita');
+            Route::get('/berita/search', [Super\SuperadminController::class, 'berita_search'])
+            ->name('berita_search');
+            Route::get('/berita/search/{slug}', [Super\SuperadminController::class, 'berita_detail'])
+            ->name('berita_detail');
             Route::post('/berita/store', [Super\SuperadminController::class, 'berita_store'])
             ->name('berita_store');
             Route::get('/berita/{id}/edit', [Super\SuperadminController::class, 'berita_edit'])

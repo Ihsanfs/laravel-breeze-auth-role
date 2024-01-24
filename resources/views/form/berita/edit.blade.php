@@ -19,6 +19,7 @@
                 <label>isi</label>
                 {{-- <textarea name="body" id="" cols="30" rows="10" class="form-control">{!! $berita->body !!}</textarea> --}}
                 <textarea name="body" id="editor1"  cols="30" rows="10">{!! $berita->body !!}</textarea>
+                
             </div>
 
             <div class="form-group">
@@ -73,8 +74,4 @@
     </div>
 @endsection
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
-     <script>
-        CKEDITOR.replace( 'editor1' );
-        config.sourceAreaTabSize = 8;
-</script>
+

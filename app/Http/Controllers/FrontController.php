@@ -17,17 +17,20 @@ class FrontController extends Controller
         if ($artikel) {
             $artikel->increment('view');
 
-        }
 
+        }
         dd($artikel);
     }
 
     public function urutan(){
 
         //halaman urut
-        $halaman = halaman::leftjoin('menu', 'halaman.menu_id', '=', 'menu.id')->select('halaman.id','halaman.nama','halaman.page_halaman')
-        ->orderBy('page_halaman', 'ASC')
+        $halaman = Halaman::leftjoin('menu', 'halaman.menu_id', '=', 'menu.id')
+        ->select('halaman.id', 'halaman.nama', 'halaman.page_halaman')
+        ->where('halaman.page_halaman', '>', 0)
+        ->orderBy('halaman.page_halaman', 'ASC')
         ->get();
+
 
        return view('front.index',compact('halaman'));
     }

@@ -29,21 +29,21 @@
 	<link rel="stylesheet" href="{{ asset('../assets/css/demo.css') }}">
 
 </head>
-<body data-background-color="dark">
+<body data-background-color="white">
 	<div class="wrapper">
 		<div class="main-header">
 			<!-- Logo Header -->
-			<div class="logo-header" data-background-color="dark2">
+			<div class="logo-header" data-background-color="dark">
 
 
-				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler sidenav-toggler ml-auto " type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
 						<i class="icon-menu"></i>
 					</span>
 				</button>
 				<button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
 				<div class="nav-toggle">
-					<button class="btn btn-toggle toggle-sidebar">
+					<button class="btn btn-toggle toggle-sidebar mt-4">
 						<i class="icon-menu"></i>
 					</button>
 				</div>
@@ -67,11 +67,11 @@
 						</form>
 					</div> --}}
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-						<li class="nav-item toggle-nav-search hidden-caret">
+						{{-- <li class="nav-item toggle-nav-search hidden-caret">
 							<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
 								<i class="fa fa-search"></i>
 							</a>
-						</li>
+						</li> --}}
 
 
 
@@ -443,7 +443,11 @@
 
 <!-- Atlantis DEMO methods, don't include it in your project! -->
 <script src="{{ asset('../assets/js/setting-demo.js') }}"></script>
-
+<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+     <script>
+        CKEDITOR.replace( 'editor1' );
+        config.sourceAreaTabSize = 8;
+</script>
 
 	<script>
 		$('#lineChart').sparkline([102,109,120,99,110,105,115], {

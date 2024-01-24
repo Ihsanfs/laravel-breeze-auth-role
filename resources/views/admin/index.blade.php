@@ -2,7 +2,7 @@
 @section('content')
 @include('alert.alert')
 <div class="mt-2 mb-4">
-    <h2 class="text-white pb-2">Selamat Datang {{ Auth::user()->name }}</h2>
+    <h2 class="text-center pb-2">Selamat Datang {{ Auth::user()->name }}</h2>
 
 </div>
 <div class="row">

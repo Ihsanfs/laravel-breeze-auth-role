@@ -87,7 +87,7 @@
                         <td>{{ $berita->firstItem() + $key }}</td>
                         <td>{{ Illuminate\Support\Str::limit($item->judul, 15) }}</td>
                         <td>{{ Illuminate\Support\Str::limit($item->slug, 15) }}</td>
-                        <td>{!! Illuminate\Support\Str::limit($item->body, 15) !!}</td>
+                        <td>{!! Illuminate\Support\Str::limit($item->body, 50) !!}</td>
 
                         <td>
                             @if (isset($item->kategori))

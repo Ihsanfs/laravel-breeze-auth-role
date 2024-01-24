@@ -37,6 +37,13 @@ class SuperadminController extends Controller
         return view('form.kategori.index', compact('kategori','role'));
     }
 
+    public function berita_search(Request $request){
+        $search = $request->input('search');
+        $berita = Artikel::where('slug', 'like', '%' . $search . '%')->get();
+        return response()->json($berita);
+
+    }
+
     public function kategori_add()
     {
         $userRole = Auth::user()->role_id;
@@ -51,6 +58,18 @@ class SuperadminController extends Controller
     $berita = Artikel::with('kategori')->paginate(10);
     return view('form.berita.index', compact('berita', 'role'));
 }
+
+        public function berita_detail($slug){
+
+            $berita = Artikel::where('slug', $slug)->paginate();
+
+            $userRole = Auth::user()->role_id;
+        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+
+        return view('form.berita.result', compact('berita', 'role'));
+
+
+        }
 
 public function berita_add()
 {
@@ -137,7 +156,7 @@ public function slider_add()
 
             $berita = new Artikel();
             $berita->judul = $request->judul;
-            $berita->slug = Str::slug($request->judul);
+            $berita->slug = str_replace(' ', '-', Str::slug($request->judul));
             $berita->user_id = Auth::id();
             $berita->body = $request->body;
 
@@ -197,7 +216,7 @@ public function slider_add()
             if (!$request->hasFile('gambar_file')) {
                 // No new file uploaded, update other fields
                 $artikel->judul = $request->judul;
-                $artikel->slug = Str::slug($request->judul);
+                $artikel->slug = str_replace(' ', '-', Str::slug($request->judul));
                 $artikel->user_id = Auth::id();
                 $artikel->kategori_id = $request->kategori_id;
                 $artikel->body = $request->body;
@@ -213,7 +232,7 @@ public function slider_add()
                 $file->move(public_path('images/artikel'), $fileName);
 
                 $artikel->judul = $request->judul;
-                $artikel->slug = Str::slug($request->judul);
+                $artikel->slug = str_replace(' ', '-', Str::slug($request->judul));
                 $artikel->user_id = Auth::id();
                 $artikel->kategori_id = $request->kategori_id;
                 $artikel->body = $request->body;
