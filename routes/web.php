@@ -39,9 +39,16 @@ Route::middleware(['auth', 'verified', 'role:1'])
     ->group(function() {
         Route::get('/Dashboard', [Super\SuperadminController::class, 'index'])
             ->name('dashboard');
-     Route::get('/kategori', [Super\SuperadminController::class, 'kategori'])
-            ->name('kategori');
+     Route::get('/sekretaris', [Super\SuperadminController::class, 'sekretaris'])
+            ->name('sekretaris');
+            Route::get('/kabid', [Super\SuperadminController::class, 'kabid'])
+            ->name('kabid');
+            Route::get('/tps/sekretaris', [Super\SuperadminController::class, 'tps'])
+            ->name('tps');
+            Route::get('/tps/kabid', [Super\SuperadminController::class, 'tps_kabid'])
+            ->name('tps_kabid');
     });
+
 
 Route::middleware(['auth', 'verified', 'role:2'])
     ->prefix('admin')
