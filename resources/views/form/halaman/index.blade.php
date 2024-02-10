@@ -21,6 +21,8 @@
                     <th>Deskripsi</th>
                     <th>status</th>
                     <th>Urutan Halaman</th>
+                    <th>Tanggal</th>
+
                     <th>Action</th>
                 </tr>
             </thead>
@@ -48,7 +50,9 @@
 
                     </td>
                     <td>{{$item->page_halaman}}</td>
-
+                    <td>
+                        {{$item->created_at}}
+                    </td>
                     <td>
 
                         <a href="{{ route($role. '.halaman_edit', $item->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> edit</a>
@@ -56,7 +60,7 @@
                         <form action="{{ route($role. '.halaman_delete', $item->id) }}"  style="display: inline;" method="POST">
                             @csrf
                             @method('delete')
-                            <button class="btn btn-danger btn-xs">delete</button>
+                            <button class="btn btn-danger btn-xs"  onclick="return confirm('apakah anda ingin menghapus ?')">delete</button>
                             </form>
                     </td>
 

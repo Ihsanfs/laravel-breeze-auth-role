@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 class halaman extends Model
 {
     use HasFactory;
@@ -28,5 +30,15 @@ class halaman extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    /**
+     * Get the user associated with the halaman
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user_halaman(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

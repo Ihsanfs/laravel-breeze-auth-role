@@ -11,18 +11,20 @@ class artikel extends Model
 {
     use HasFactory;
     protected $table = 'artikels';
-    protected $fillable = [
-     'judul',
-     'slug',
-     'kategori_id',
-     'user_id',
-     'gambar_artikel',
-     'body',
-     'is_active',
-     'views'
+//     protected $fillable = [
+//      'judul',
+//      'slug',
+//      'kategori_id',
+//      'user_id',
+//      'gambar_artikel',
+//      'body',
+//      'is_active',
+//      'views'
 
 
- ];
+//  ];
+
+ protected $guarded = [];
 
 
 

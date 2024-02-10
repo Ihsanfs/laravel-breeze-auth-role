@@ -19,6 +19,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="nama_halaman">Judul</label>
+                    <input type="text" name="judul_halaman" class="form-control">
+                </div>
+
+
+
+                <div class="form-group">
                     <label for="deskripsi_h">Deskripsi</label>
                     <textarea name="deskripsi_h"  class="form-control"  id="editor1" rows="5" placeholder="deskripsi"></textarea>
                 </div>

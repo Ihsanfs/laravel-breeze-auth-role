@@ -29,8 +29,15 @@ Route::middleware(['web'])->group(function () {
     //     return view('welcome');
     // });
 
-    Route::get('/page/{slug}', [FrontController::class, 'index']);
-    Route::get('/', [FrontController::class, 'urutan'])->name('urut');
+    Route::get('/page/{slug}', [FrontController::class, 'index'])->name('detail');
+    Route::get('/halaman/{slug}', [FrontController::class, 'halaman'])->name('halaman');
+    Route::get('/', [FrontController::class, 'beranda'])->name('beranda');
+    Route::get('/search/berita/', [FrontController::class, 'search_berita'])->name('search_berita');
+    Route::get('/news', [FrontController::class, 'berita_lengkap'])->name('berita_lengkap');
+    Route::get('/category/{slug}', [FrontController::class, 'kategori_tag'])->name('kategori_tag');
+    Route::get('/category/tag/{category}', [FrontController::class, 'kategori_tampil'])->name('kategori_tampil');
+
+
 
 });
 
@@ -206,19 +213,23 @@ Route::middleware(['auth', 'verified', 'role:2'])
         ->name('kategori_update');
 
 
-        //berita
-        Route::get('/berita', [Super\SuperadminController::class, 'berita'])
-        ->name('berita');
-        Route::post('/berita/store', [Super\SuperadminController::class, 'berita_store'])
-        ->name('berita_store');
-        Route::get('/berita/{id}/edit', [Super\SuperadminController::class, 'berita_edit'])
-        ->name('berita_edit');
-        Route::get('/berita/create', [Super\SuperadminController::class, 'berita_add'])
-        ->name('berita_add');
-        Route::put('/berita/{id}/update', [Super\SuperadminController::class, 'berita_update'])
-        ->name('berita_update');
-        Route::delete('/berita/{id}/delete', [Super\SuperadminController::class, 'berita_delete'])
-        ->name('berita_delete');
+          //berita
+          Route::get('/berita', [Super\SuperadminController::class, 'berita'])
+          ->name('berita');
+          Route::get('/berita/search', [Super\SuperadminController::class, 'berita_search'])
+          ->name('berita_search');
+          Route::get('/berita/search/{slug}', [Super\SuperadminController::class, 'berita_detail'])
+          ->name('berita_detail');
+          Route::post('/berita/store', [Super\SuperadminController::class, 'berita_store'])
+          ->name('berita_store');
+          Route::get('/berita/{id}/edit', [Super\SuperadminController::class, 'berita_edit'])
+          ->name('berita_edit');
+          Route::get('/berita/create', [Super\SuperadminController::class, 'berita_add'])
+          ->name('berita_add');
+          Route::put('/berita/{id}/update', [Super\SuperadminController::class, 'berita_update'])
+          ->name('berita_update');
+          Route::delete('/berita/{id}/delete', [Super\SuperadminController::class, 'berita_delete'])
+          ->name('berita_delete');
 
 
 

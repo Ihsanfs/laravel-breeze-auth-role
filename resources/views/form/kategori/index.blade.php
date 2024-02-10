@@ -34,7 +34,7 @@
                         <form action="{{ route($role. '.hapus_kategori', $item->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('delete')
-                            <button class="btn btn-danger btn-xs">delete</button>
+                            <button class="btn btn-danger btn-xs"  onclick="return confirm('apakah anda ingin menghapus ?')">delete</button>
                             </form>
                     </td>
 
