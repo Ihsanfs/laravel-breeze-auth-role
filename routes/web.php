@@ -28,14 +28,16 @@ Route::middleware(['web'])->group(function () {
     // Route::get('/', function () {
     //     return view('welcome');
     // });
-
-    Route::get('/page/{slug}', [FrontController::class, 'index'])->name('detail');
-    Route::get('/halaman/{slug}', [FrontController::class, 'halaman'])->name('halaman');
     Route::get('/', [FrontController::class, 'beranda'])->name('beranda');
+    Route::get('/page/{slug}', [FrontController::class, 'index'])->name('detail');
+
+    Route::get('/halaman/{slug}', [FrontController::class, 'halaman'])->name('halaman');
+
     Route::get('/search/berita/', [FrontController::class, 'search_berita'])->name('search_berita');
     Route::get('/news', [FrontController::class, 'berita_lengkap'])->name('berita_lengkap');
     Route::get('/category/{slug}', [FrontController::class, 'kategori_tag'])->name('kategori_tag');
-    Route::get('/category/tag/{category}', [FrontController::class, 'kategori_tampil'])->name('kategori_tampil');
+    Route::get('/kategori/{category}', [FrontController::class, 'kategori_tampil'])->name('kategori_tampil');
+    Route::get('/tag/{tag}', [FrontController::class, 'tag_tampil'])->name('tag_tampil');
 
 
 
@@ -187,6 +189,19 @@ Route::middleware(['auth', 'verified', 'role:1'])
             ->name('menu_delete');
             Route::post('/menu/store', [MenuController::class, 'store'])
             ->name('menu_store');
+
+            //tag
+            Route::get('/tag', [Super\TagController::class, 'index'])
+            ->name('tag.index');
+
+            Route::post('/tag/store', [Super\TagController::class, 'store'])
+            ->name('tag.store');
+            Route::delete('/tag/{id}/delete', [Super\TagController::class, 'destroy'])
+            ->name('tag.delete');
+
+            Route::patch('/tag/{id}/update', [Super\TagController::class, 'update'])
+            ->name('tag.update');
+
 
     });
 

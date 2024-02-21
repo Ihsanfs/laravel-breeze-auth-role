@@ -5,7 +5,7 @@
             position: absolute;
             bottom: 0;
             top: 22px;
-            left: 600px;
+            left: 750px;
 
 
         }
@@ -71,7 +71,7 @@
                     <th>Judul</th>
                     <th>Slug</th>
                     <th>Isi</th>
-                    <th>Kategori</th>
+                    {{-- <th>Kategori</th> --}}
                     <th>Gambar</th>
                     <th>Status</th>
 
@@ -89,13 +89,13 @@
                         <td>{{ Illuminate\Support\Str::limit($item->slug, 15) }}</td>
                         <td>{!! Illuminate\Support\Str::limit($item->body, 15) !!}</td>
 
-                        <td>
+                        {{-- <td>
                             @if (isset($item->kategori))
                                 {{ $item->kategori->nama_kategori }}
                             @else
                                 Kategori tidak ada
                             @endif
-                        </td>
+                        </td> --}}
                         <td>
                             <img src="{{ asset($item->gambar_artikel) }}" style="height:60px"
                                 class="rounded img-thumbnail mb-2 mt-2" alt="gambar artikel">

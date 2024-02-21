@@ -7,6 +7,8 @@
             <div class="container mt-4">
                 <div class="row">
 
+                    {{ Breadcrumbs::render('halaman', $slug) }}
+
 
                     <div class="col-lg-12 order-lg-2 mt-2 mb-2">
                         <div class="card h-100">

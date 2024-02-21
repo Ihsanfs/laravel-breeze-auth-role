@@ -6,6 +6,7 @@
         <section class="detail_berita">
             <div class="container mt-4">
                 <div class="row">
+                    {{ Breadcrumbs::render('detail', $slug) }}
 
 
                     <div class="col-md-8  mt-2 mb-2">
@@ -13,11 +14,27 @@
                             <img class="card-img-top" src="{{ asset($artikel->gambar_artikel) }}" alt="Card image cap">
                             <div class="card-body">
                                 <h2>{{ $artikel->judul }}</h2>
-                                <p><i class="fa-solid fa-tags"></i> {{$artikel->kategori->nama_kategori}}</p>
+                                <p><i class="fa-solid fa-tags"></i> @foreach ($kat_lop as $item)
+                                    <a href="{{route('kategori_tampil',$item->slug)}}" >
+                                        <span class="badge badge-pill badge-secondary mb-2 ">  {{$item->nama_kategori}}</span>
+
+                                      </a>
+
+
+                                    @endforeach</p>
+                                    {{-- <p><i class="fa-solid fa-tags"></i> tag @foreach ($tag_lop as $item)
+                                        <a href="{{route('tag_tampil',$item->slug)}}" type="button" class="btn btn-primary">
+                                            {{$item->nama_tag}}
+
+                                          </a>
+
+
+                                        @endforeach</p> --}}
+
 
                                 <p>{!! $artikel->body !!}</p>
                                 <p>di buat oleh : {{ $artikel->users->name }}</p>
-                                <p><i class="fa-regular fa-calendar-days"></i> {{ $artikel->created_at->format('d M Y') }} <i class="fa-solid fa-clock"></i> {{ $artikel->created_at->diffForHumans() }} <i class="fa-solid fa-eye"></i> {{ $artikel->views }}</p>
+                                {{-- <p><i class="fa-regular fa-calendar-days"></i> {{ $artikel->created_at->format('d M Y') }} <i class="fa-solid fa-clock"></i> {{ $artikel->created_at->diffForHumans() }} <i class="fa-solid fa-eye"></i> {{ $artikel->views }}</p> --}}
                             </div>
                         </div>
                     </div>
@@ -27,7 +44,7 @@
                             <div class="input-group mt-2 mb-3 rounded">
 
                                 <input type="text" class="form-control" name="cari_berita" placeholder="Search Keyword" autocomplete="off">
-                                <div class="input-group-append p-2">
+                                <div class=" p-2">
                                     <button class="btn btn-outline-success mr-2 ml-2" type="submit">Search</button>
                                 </div>
 
@@ -94,6 +111,33 @@
 
                                 @endforeach
 
+                            </div>
+                        </div>
+
+                        <div class="card mt-2 mb-12 p-4">
+                            <h4>Kategori</h4>
+                            <div class="d-flex flex-wrap">
+                                @foreach ($kat_lop as $nama_kategori => $items)
+                                    <div class="mr-2 mb-2">
+                                        <a href="{{ route('kategori_tampil', $items->slug) }}">
+                                            <span class="badge badge-pill badge-info">
+                                                {{ $items->nama_kategori }}
+                                            </span>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="card mt-2 mb-12 p-4">
+                            <h4>Tag</h4>
+                            <div class="d-flex flex-wrap">
+                                @foreach ($tag_lop as $item)
+                                <div class="mr-2 mb-2">
+                                        <a href="{{ route('tag_tampil', $item->slug) }}">
+                                            <span class="badge badge-success">{{ $item->nama_tag }}</span>
+                                        </a>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
 

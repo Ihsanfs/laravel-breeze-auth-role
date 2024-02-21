@@ -2,7 +2,7 @@
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
         <a href="index.html" class="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt="">
+            {{-- <img src="assets/img/logo.png" alt=""> --}}
             <span>OOT</span>
         </a>
 
@@ -29,7 +29,7 @@
 
 
                 {{-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> --}}
-                <li><a class="getstarted scrollto" href="#about">Get Started</a></li>
+                {{-- <li><a class="getstarted scrollto" href="#about">Get Started</a></li> --}}
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->

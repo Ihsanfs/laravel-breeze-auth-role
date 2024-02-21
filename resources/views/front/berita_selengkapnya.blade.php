@@ -164,7 +164,7 @@
 
                             @foreach ($kategori as $item)
                             <div class="col-md-4 border-0">
-                                <a href="{{route('kategori_tampil',$item->nama_kategori)}}">
+                                <a href="{{route('kategori_tampil',$item->slug)}}">
                                 <div class="card p-2 mb-2 mt-2 bg-info">
                                    {{$item->nama_kategori}}
                                 </div>

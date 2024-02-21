@@ -18,10 +18,12 @@
 			}
 		});
 	</script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="{{asset('../assets/css/bootstrap.min.css')}}">
+
 	<link rel="stylesheet" href="{{ asset('../assets/css/atlantis.min.css') }}">
 
 
@@ -187,6 +189,15 @@
 							<a href="{{route($role.'.kategori')}}">
 								<i class="fa-solid fa-tag"></i>
 								<p>Kategori</p>
+
+							</a>
+
+						</li>
+
+                        <li class="nav-item">
+							<a href="{{route($role.'.tag.index')}}">
+								<i class="fa-solid fa-tag"></i>
+								<p>Tag</p>
 
 							</a>
 
@@ -405,7 +416,9 @@
 		<!-- End Custom template -->
 	</div>
 	<!--   Core JS Files   -->
+
 	<script src="{{ asset('../assets/js/core/jquery.3.2.1.min.js') }}"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <script src="{{ asset('../assets/js/core/popper.min.js') }}"></script>
 <script src="{{ asset('../assets/js/core/bootstrap.min.js') }}"></script>
 
@@ -434,7 +447,7 @@
 <!-- jQuery Vector Maps -->
 <script src="{{ asset('../assets/js/plugin/jqvmap/jquery.vmap.min.js') }}"></script>
 <script src="{{ asset('../assets/js/plugin/jqvmap/maps/jquery.vmap.world.js') }}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!-- Sweet Alert -->
 <script src="{{ asset('../assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
 
@@ -444,9 +457,12 @@
 <!-- Atlantis DEMO methods, don't include it in your project! -->
 <script src="{{ asset('../assets/js/setting-demo.js') }}"></script>
 <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
-     <script>
-        CKEDITOR.replace( 'editor1' );
-        config.sourceAreaTabSize = 8;
+<script>
+    $(document).ready(function () {
+      CKEDITOR.replace( 'editor1' );
+  config.sourceAreaTabSize = 8;
+  });
+
 </script>
 
 	<script>
@@ -477,5 +493,15 @@
 			fillColor: 'rgba(255, 255, 255, .15)'
 		});
 	</script>
+    <script>
+        $(document).ready(function(){
+
+            $(".js-example-tokenizer").select2({
+    tags: true,
+    tokenSeparators: [',', ' ']
+})
+
+        });
+        </script>
 </body>
 </html>

@@ -114,7 +114,8 @@
 
                                     <div class="col-md-12">
                                         <div class="mt-2 mb-2 p-2">
-                                            <div class="card-body">
+                                            <div class="card mb-1 p-2 h-100">
+                                                <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <a href="{{route('detail',$populer->slug)}}">
@@ -130,6 +131,7 @@
                                                     </div>
 
                                                 </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -137,9 +139,11 @@
                             @endforeach
 
                       </div>
+                      <h3 class="text-dark p-2">Berita Terbaru</h3>
+
                     <div class="card mt-2">
+
                         <div class="card-body p-2">
-                            <h3 class="text-dark p-2">Berita Terbaru</h3>
                             @foreach ($berita_baru as $item)
 
                                     <div class="col-md-12">

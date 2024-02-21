@@ -28,10 +28,10 @@ class artikel extends Model
 
 
 
- public function kategori()
- {
-     return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
- }
+//  public function kategori()
+//  {
+//      return $this->belongsTo(Kategori_tag::class, 'kategori_id');
+//  }
 
 public function users()
 {
@@ -43,5 +43,8 @@ public function getRouteKeyName()
 {
     return 'slug';
 }
-
 }
+
+
+
+

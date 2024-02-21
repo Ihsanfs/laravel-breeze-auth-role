@@ -22,7 +22,7 @@
 
             </div>
 
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label>Kategori</label>
 
                 <select name="kategori_id" id="" class="form-control">
@@ -35,11 +35,25 @@
                         </option>
                     @endforeach
                 </select>
-
-
-
-
+            </div> --}}
+            <div class="form-group">
+                <label for="tag_id">Tag</label>
+                <select name="tag_id[]" class="form-control js-example-tokenizer" multiple="multiple">
+                    @foreach ($tag as $tags)
+                        <option value="{{ $tags->id }}" @if(in_array($tags->id, $selectedTags)) selected @endif>{{ $tags->nama_tag }}</option>
+                    @endforeach
+                </select>
             </div>
+
+            <div class="form-group">
+                <label for="tag_id">Kategori</label>
+                <select name="kategori_id[]" class="form-control js-example-tokenizer" multiple="multiple">
+                    @foreach ($kategori_tag as $item)
+                        <option value="{{ $item->id }}" @if(in_array($item->id, $kategori_artikel)) selected @endif>{{ $item->nama_kategori }}</option>
+                    @endforeach
+                </select>
+            </div>
+
 
             <div class="form-group">
                 <label>Gambar</label>

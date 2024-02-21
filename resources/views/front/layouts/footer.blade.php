@@ -5,7 +5,7 @@
             <div class="row gy-4">
                 <div class="col-lg-5 col-md-12 footer-info">
                     <a href="index.html" class="logo d-flex align-items-center mb-4">
-                        <img src="assets/img/logo.png" alt="">
+                        {{-- <img src="assets/img/logo.png" alt=""> --}}
                         <span>Nama OPD</span>
                     </a>
                     {{-- <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita

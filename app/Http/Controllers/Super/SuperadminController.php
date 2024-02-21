@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Super;
 
 use App\Http\Controllers\Controller;
 use App\Models\artikel;
+use App\Models\artikeltag;
 use App\Models\Gallery;
 use App\Models\halaman;
 use App\Models\kategori;
+use App\Models\kategori_tag;
 use App\Models\Slide;
+use App\Models\tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +27,7 @@ class SuperadminController extends Controller
         $galery = Gallery::count();
 
         $role = ($userRole == 2) ? 'admin' : 'superadmin';
-        return view('admin.index', compact('role','berita','halaman','video','galery'));
+        return view('admin.index', compact('role', 'berita', 'halaman', 'video', 'galery'));
     }
 
     public function kategori()
@@ -34,14 +37,14 @@ class SuperadminController extends Controller
         // dd($kategori);
         $userRole = Auth::user()->role_id;
         $role = ($userRole == 2) ? 'admin' : 'superadmin';
-        return view('form.kategori.index', compact('kategori','role'));
+        return view('form.kategori.index', compact('kategori', 'role'));
     }
 
-    public function berita_search(Request $request){
+    public function berita_search(Request $request)
+    {
         $search = $request->input('search');
         $berita = Artikel::where('slug', 'like', '%' . $search . '%')->get();
         return response()->json($berita);
-
     }
 
     public function kategori_add()
@@ -52,47 +55,47 @@ class SuperadminController extends Controller
     }
 
     public function berita()
-{
-    $userRole = Auth::user()->role_id;
-    $role = ($userRole == 2) ? 'admin' : 'superadmin';
-    $berita = Artikel::with('kategori')->paginate(10);
-    return view('form.berita.index', compact('berita', 'role'));
-}
+    {
+        $userRole = Auth::user()->role_id;
+        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $berita = Artikel::paginate(10);
+        return view('form.berita.index', compact('berita', 'role'));
+    }
 
-        public function berita_detail($slug){
+    public function berita_detail($slug)
+    {
 
-            $berita = Artikel::where('slug', $slug)->paginate();
+        $berita = Artikel::where('slug', $slug)->paginate();
 
-            $userRole = Auth::user()->role_id;
+        $userRole = Auth::user()->role_id;
         $role = ($userRole == 2) ? 'admin' : 'superadmin';
 
         return view('form.berita.result', compact('berita', 'role'));
+    }
+
+    public function berita_add()
+    {
+        $userRole = Auth::user()->role_id;
+        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $kategori_all = kategori::all();
+        $tag = tag::all();
+        return view('form.berita.create', compact('kategori_all', 'role', 'tag'));
+    }
 
 
-        }
+    public function slider()
+    {
+        $userRole = Auth::user()->role_id;
+        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        return view('form.slide.index', compact('role'));
+    }
 
-public function berita_add()
-{
-    $userRole = Auth::user()->role_id;
-    $role = ($userRole == 2) ? 'admin' : 'superadmin';
-    $kategori_all = kategori::all();
-    return view('form.berita.create', compact('kategori_all', 'role'));
-}
-
-
-public function slider()
-{
-    $userRole = Auth::user()->role_id;
-    $role = ($userRole == 2) ? 'admin' : 'superadmin';
-    return view('form.slide.index', compact('role'));
-}
-
-public function slider_add()
-{
-    $userRole = Auth::user()->role_id;
-    $role = ($userRole == 2) ? 'admin' : 'superadmin';
-    return view('form.slide.create', compact('role'));
-}
+    public function slider_add()
+    {
+        $userRole = Auth::user()->role_id;
+        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        return view('form.slide.create', compact('role'));
+    }
 
 
     public function kategori_store(Request $request)
@@ -110,7 +113,7 @@ public function slider_add()
             'slug' => Str::slug($request->nama_kategori)
         ]);
 
-        return redirect()->route($role.'.kategori')->with(['success'=>'Kategori berhasil di tambahkan']);
+        return redirect()->route($role . '.kategori')->with(['success' => 'Kategori berhasil di tambahkan']);
     }
 
 
@@ -121,7 +124,7 @@ public function slider_add()
         $kategori = kategori::find($id);
         $userRole = Auth::user()->role_id;
         $role = ($userRole == 2) ? 'admin' : 'superadmin';
-        return view('form.kategori.edit', compact('kategori','role'));
+        return view('form.kategori.edit', compact('kategori', 'role'));
     }
 
     public function kategori_update(Request $request, $id)
@@ -152,6 +155,7 @@ public function slider_add()
                 'gambar_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'body' => 'required',
                 'is_active' => 'required',
+
             ]);
 
             $berita = new Artikel();
@@ -169,10 +173,30 @@ public function slider_add()
                 $berita->gambar_artikel = $filePath;
             }
 
-            $berita->kategori_id = $request->kategori_id;
             $berita->is_active = $request->is_active;
-
             $berita->save();
+
+            if ($berita) {
+                if ($request->has('kategori_id')) {
+                foreach ($request->kategori_id as $tagId) {
+                    $artikel_id = new kategori_tag();
+                    $artikel_id->artikel_id = $berita->id;
+                    $artikel_id->kategori_id = $tagId;
+                    $artikel_id->save();
+                }
+            }
+            }
+
+            if ($berita) {
+                if ($request->has('tag_id')) {
+                    foreach ($request->tag_id as $tagId) {
+                        $tag_artikel = new artikeltag();
+                        $tag_artikel->artikel_id = $berita->id;
+                        $tag_artikel->tag_id = $tagId;
+                        $tag_artikel->save();
+                    }
+                }
+            }
 
             $userRole = Auth::user()->role_id;
             $role = ($userRole == 2) ? 'admin' : 'superadmin';
@@ -184,13 +208,28 @@ public function slider_add()
     }
 
 
+
     public function berita_edit($id)
     {
         $userRole = Auth::user()->role_id;
         $role = ($userRole == 2) ? 'admin' : 'superadmin';
         $berita = artikel::find($id);
+        $tag = artikeltag::leftjoin('artikels as a', 'a.id', '=', 'artikels_tag.artikel_id')
+            ->leftjoin('tag', 'tag.id', '=', 'artikels_tag.tag_id')->where('artikels_tag.artikel_id', $id)
+            ->get();
+            $kategori_tag = kategori_tag::leftjoin('artikels as b', 'b.id', '=', 'kategori_tag.artikel_id')
+            ->leftjoin('kategori', 'kategori.id', '=', 'kategori_tag.kategori_id')
+            ->where('kategori_tag.artikel_id', $id)
+            ->get();
+            // dd($kategori_tag);
+            $kategori_artikel = $kategori_tag->pluck('id')->toArray();
+
+            // dd($kategori_tag);
+        $selectedTags = $tag->pluck('id')->toArray();
+
         $kategori_all = kategori::all();
-        return view('form.berita.edit', compact('berita', 'kategori_all','role'));
+
+        return view('form.berita.edit', compact('berita','kategori_tag', 'kategori_all', 'role', 'tag', 'selectedTags','kategori_artikel'));
     }
 
     public function berita_update(Request $request, $id)
@@ -205,7 +244,7 @@ public function slider_add()
             ]);
 
             $artikel = Artikel::find($id);
-
+            $kategori_multi = kategori_tag::get();
             if (!$artikel) {
                 return back()->with(['error' => 'Artikel not found']);
             }
@@ -218,10 +257,33 @@ public function slider_add()
                 $artikel->judul = $request->judul;
                 $artikel->slug = str_replace(' ', '-', Str::slug($request->judul));
                 $artikel->user_id = Auth::id();
-                $artikel->kategori_id = $request->kategori_id;
+                // $artikel->kategori_id = $request->kategori_id;
                 $artikel->body = $request->body;
                 $artikel->is_active = $request->is_active;
                 $artikel->update();
+
+                if($artikel){
+                    kategori_tag::where('artikel_id', $artikel->id)->delete();
+                    foreach ($request->kategori_id as $tagId) {
+                        $tag_artikel = new kategori_tag();
+                        $tag_artikel->artikel_id = $artikel->id;
+                        $tag_artikel->kategori_id = $tagId;
+                        $tag_artikel->save();
+                    }
+                }
+
+
+
+                if ($request->has('tag_id')) {
+
+                    artikeltag::where('artikel_id', $artikel->id)->delete();
+                        foreach ($request->tag_id as $tagId) {
+                            $tag_artikel = new artikeltag();
+                            $tag_artikel->artikel_id = $artikel->id;
+                            $tag_artikel->tag_id = $tagId;
+                            $tag_artikel->save();
+                        }
+                    }
 
                 return redirect()->route($role . '.berita')->with(['success' => 'Artikel berhasil diupdate']);
             } else {
@@ -234,12 +296,32 @@ public function slider_add()
                 $artikel->judul = $request->judul;
                 $artikel->slug = str_replace(' ', '-', Str::slug($request->judul));
                 $artikel->user_id = Auth::id();
-                $artikel->kategori_id = $request->kategori_id;
+                // $artikel->kategori_id = $request->kategori_id;
                 $artikel->body = $request->body;
                 $artikel->is_active = $request->is_active;
                 $artikel->gambar_artikel = $filePath;
                 $artikel->update();
 
+                if($artikel){
+                    kategori_tag::where('artikel_id', $artikel->id)->delete();
+                    foreach ($request->kategori_id as $tagId) {
+                        $tag_artikel = new kategori_tag();
+                        $tag_artikel->artikel_id = $artikel->id;
+                        $tag_artikel->kategori_id = $tagId;
+                        $tag_artikel->save();
+                    }
+                }
+
+                if ($request->has('tag_id')) {
+
+                    artikeltag::where('artikel_id', $artikel->id)->delete();
+                        foreach ($request->tag_id as $tagId) {
+                            $tag_artikel = new artikeltag();
+                            $tag_artikel->artikel_id = $artikel->id;
+                            $tag_artikel->tag_id = $tagId;
+                            $tag_artikel->save();
+                        }
+                    }
                 return redirect()->route($role . '.berita')->with(['success' => 'Artikel berhasil diupdate']);
             }
         } catch (\Exception $e) {
@@ -249,11 +331,11 @@ public function slider_add()
 
 
 
-    public function berita_delete($id){
+    public function berita_delete($id)
+    {
         $artikel = Artikel::find($id);
         $artikel->gambar_artikel;
         $artikel->delete();
         return back()->with(['success' => 'Artikel berhasil di hapus']);
-
     }
 }
