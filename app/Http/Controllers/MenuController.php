@@ -48,7 +48,9 @@ class MenuController extends Controller
         $menu = new menu();
         $menu->nama = $request->nama_menu;
         $menu->user_id = Auth::user()->id;
+        $menu->url = $request->url_menu;
         $menu->is_active = $request->is_active;
+        $menu->status = $request->menu_pilih;
         $menu->save();
         $userRole = Auth::user()->role_id;
         $role = ($userRole == 2) ? 'admin' : 'superadmin';

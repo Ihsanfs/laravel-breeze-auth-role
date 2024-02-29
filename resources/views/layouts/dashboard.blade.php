@@ -8,7 +8,7 @@
 
 	<!-- Fonts and icons -->
     <script src="{{ asset('../assets/js/plugin/webfont/webfont.min.js') }}"></script>
-
+    @stack('styles')
 	<script>
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
@@ -18,6 +18,7 @@
 			}
 		});
 	</script>
+
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -457,13 +458,13 @@
 <!-- Atlantis DEMO methods, don't include it in your project! -->
 <script src="{{ asset('../assets/js/setting-demo.js') }}"></script>
 <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
-<script>
+{{-- <script>
     $(document).ready(function () {
       CKEDITOR.replace( 'editor1' );
   config.sourceAreaTabSize = 8;
   });
 
-</script>
+</script> --}}
 
 	<script>
 		$('#lineChart').sparkline([102,109,120,99,110,105,115], {
@@ -503,5 +504,6 @@
 
         });
         </script>
+          @stack('scripts')
 </body>
 </html>

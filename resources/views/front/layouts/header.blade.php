@@ -8,7 +8,7 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="nav-link scrollto active" href="{{route('beranda')}}">Home</a></li>
+                <li><a class="nav-link scrollto active" href="{{ route('beranda') }}">Home</a></li>
                 <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
                 {{-- <li><a class="nav-link scrollto" href="#about">About</a></li>
           <li><a class="nav-link scrollto" href="#services">Services</a></li>
@@ -16,17 +16,32 @@
           <li><a class="nav-link scrollto" href="#team">Team</a></li> --}}
                 {{-- <li><a href="blog.html">Blog</a></li> --}}
                 @foreach ($menu as $key => $data)
-                <li class="dropdown">
-                    <a href="#"><span> {{ $data->nama }}</span> <i class="bi bi-chevron-down"></i></a>
-                    <ul>
-
-                            @foreach ($grouphalaman[$data->id] as $item)
-                                <li><a href="{{ route('halaman', $item->slug) }}"> {{ $item->nama }}</a></li>
-                            @endforeach
-
-                    </ul>
-                </li>
+                @if ($data->url)
+                    <a href="{{ $data->url }}"><span>{{ $data->nama }}</span></a>
+                @else
+                    @if($grouphalaman->has($data->id))
+                        <li class="dropdown">
+                            <a href="#"><span>{{ $data->nama }}</span> <i class="bi bi-chevron-down"></i></a>
+                            <ul>
+                                @foreach ($grouphalaman[$data->id] as $item)
+                                    <li>
+                                        @if ($item->deskripsi)
+                                            <a href="{{ route('halaman', $item->slug) }}">{{ $item->nama }}</a>
+                                        @elseif ($item->url)
+                                            <a href="{{ $item->url }}">{{ $item->nama }}</a>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+                @endif
             @endforeach
+
+
+
+
+
 
 
 

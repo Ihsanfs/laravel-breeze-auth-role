@@ -15,6 +15,12 @@ Breadcrumbs::for('beranda', function (BreadcrumbTrail $trail) {
     $trail->push('beranda', route('beranda'));
 });
 
+
+Breadcrumbs::for('berita', function (BreadcrumbTrail $trail) {
+    $trail->push('berita', route('berita_lengkap'));
+});
+
+
 Breadcrumbs::for('halaman', function (BreadcrumbTrail $trail, $slug) {
     $trail->parent('beranda');
     $trail->push($slug, route('halaman', $slug));
@@ -23,17 +29,21 @@ Breadcrumbs::for('halaman', function (BreadcrumbTrail $trail, $slug) {
 //detail
 Breadcrumbs::for('detail', function (BreadcrumbTrail $trail, $slug) {
     $trail->parent('beranda');
+    $trail->parent('berita');
     $trail->push($slug, route('detail', $slug));
 });
 
 //kategori
 Breadcrumbs::for('kategori', function (BreadcrumbTrail $trail, $kategori) {
     $trail->parent('beranda');
+    $trail->parent('berita');
+
     $trail->push($kategori, route('kategori_tampil', $kategori));
 });
 
 Breadcrumbs::for('tag', function (BreadcrumbTrail $trail, $tag) {
     $trail->parent('beranda');
+    $trail->parent('berita');
     $trail->push($tag, route('tag_tampil', $tag));
 });
 // Home > Blog > [Category]

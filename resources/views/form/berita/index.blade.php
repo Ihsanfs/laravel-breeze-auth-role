@@ -5,7 +5,7 @@
             position: absolute;
             bottom: 0;
             top: 22px;
-            left: 750px;
+            left: 600px;
 
 
         }
@@ -87,7 +87,7 @@
                         <td>{{ $berita->firstItem() + $key }}</td>
                         <td>{{ Illuminate\Support\Str::limit($item->judul, 15) }}</td>
                         <td>{{ Illuminate\Support\Str::limit($item->slug, 15) }}</td>
-                        <td>{!! Illuminate\Support\Str::limit($item->body, 15) !!}</td>
+                        <td>{{ Illuminate\Support\Str::limit($item->body, 15) }}</td>
 
                         {{-- <td>
                             @if (isset($item->kategori))
@@ -137,8 +137,11 @@
     </div>
 @endsection
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
+
     $(document).ready(function() {
         $('#cari_berita').on('input', function() {
             var searchText = $(this).val();
@@ -206,3 +209,4 @@
         }
     });
 </script>
+@endpush

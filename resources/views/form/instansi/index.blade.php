@@ -2,7 +2,7 @@
 @section('content')
 @include('alert.alert')
     <div class="container">
-        <h2 class="text-white">Profil Instansi</h2>
+        <h2 class="text-dark">Profil Instansi</h2>
         <div class="col-6 col-md-12 ml-auto text-right">
             @if($instansi)
                 <a href="{{ route($role.'.instansi_edit', $instansi->first()->id) }}" class="btn btn-warning">Edit Profil</a>

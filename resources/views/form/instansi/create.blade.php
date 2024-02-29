@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
 @section('content')
-@include('alert.alert')s
+@include('alert.alert')
     <div class="container">
-        <h2 class="text-white">Profil Perusahaan</h2>
+        <h2 class="text-dark">Profil Perusahaan</h2>
         <div class="row py-4">
 
                 <div class="col-12 col-md-6 mb-2">
@@ -57,4 +57,4 @@
         </div>
     </div>
 @endsection
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>s
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

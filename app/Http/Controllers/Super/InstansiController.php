@@ -26,8 +26,9 @@ class InstansiController extends Controller
     }
 
     public function create(){
-
-        return view('form.instansi.create');
+        $userRole = Auth::user()->role_id;
+        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        return view('form.instansi.create',['role' => $role]);
     }
     public function update(Request $request, $id)
     {

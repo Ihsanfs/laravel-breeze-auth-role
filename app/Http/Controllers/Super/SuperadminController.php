@@ -228,8 +228,8 @@ class SuperadminController extends Controller
         $selectedTags = $tag->pluck('id')->toArray();
 
         $kategori_all = kategori::all();
-
-        return view('form.berita.edit', compact('berita','kategori_tag', 'kategori_all', 'role', 'tag', 'selectedTags','kategori_artikel'));
+        $tag_all = tag::all();
+        return view('form.berita.edit', compact('berita','kategori_tag', 'tag_all', 'kategori_all', 'role', 'tag', 'selectedTags','kategori_artikel'));
     }
 
     public function berita_update(Request $request, $id)
@@ -335,6 +335,13 @@ class SuperadminController extends Controller
     {
         $artikel = Artikel::find($id);
         $artikel->gambar_artikel;
+
+        if (!empty($artikel->gambar_artikel)) {
+            $file_path = public_path($artikel->gambar_artikel);
+            if (file_exists($file_path)) {
+                unlink($file_path);
+            }
+        }
         $artikel->delete();
         return back()->with(['success' => 'Artikel berhasil di hapus']);
     }

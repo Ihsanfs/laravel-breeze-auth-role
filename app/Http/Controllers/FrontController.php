@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\album;
 use App\Models\artikel;
 use App\Models\artikeltag;
 use App\Models\Gallery;
@@ -22,18 +23,20 @@ class FrontController extends Controller
 
         //halaman urut
         $halaman = Halaman::leftJoin('menu', 'halaman.menu_id', '=', 'menu.id')
-            ->select('menu.*', 'halaman.*')
+            ->where('menu.is_active', 1)
+            ->where('halaman.is_active',1)
             ->where('halaman.page_halaman', '>', 0)
+            ->select('menu.*', 'halaman.*')
             ->orderBy('halaman.page_halaman', 'ASC')
             ->get();
 
-        // Mengelompokkan berdasarkan menu_id
         $grouphalaman = $halaman->groupBy('menu_id');
+
         $berita_populer = Artikel::orderBy('views', 'desc')->take(4)->get();
-        $menu = Menu::all();
+        $menu = Menu::where('is_active', 1)->get();
         //galery\
         $instansi = instansi::first();
-        $galeri = Gallery::all();
+        $galeri = album::all();
         $berita = Artikel::latest()->take(10)->get(); // Mengambil 10 artikel terbaru
 
         $berita_terbaru = Artikel::orderByDesc('created_at')->take(10)->get(); // Mengambil 10 artikel terbaru dalam urutan descending
@@ -46,10 +49,12 @@ class FrontController extends Controller
 
         //halaman urut
         $halaman = Halaman::leftJoin('menu', 'halaman.menu_id', '=', 'menu.id')
-            ->select('menu.*', 'halaman.*')
-            ->where('halaman.page_halaman', '>', 0)
-            ->orderBy('halaman.page_halaman', 'ASC')
-            ->get();
+        ->where('menu.is_active', 1)
+        ->where('halaman.is_active',1)
+        ->where('halaman.page_halaman', '>', 0)
+        ->select('menu.*', 'halaman.*')
+        ->orderBy('halaman.page_halaman', 'ASC')
+        ->get();
         $grouphalaman = $halaman->groupBy('menu_id');
 
         $menu = Menu::all();
@@ -96,10 +101,12 @@ class FrontController extends Controller
     {
         //halaman urut
         $halaman = Halaman::leftJoin('menu', 'halaman.menu_id', '=', 'menu.id')
-            ->select('menu.*', 'halaman.*')
-            ->where('halaman.page_halaman', '>', 0)
-            ->orderBy('halaman.page_halaman', 'ASC')
-            ->get();
+        ->where('menu.is_active', 1)
+        ->where('halaman.is_active',1)
+        ->where('halaman.page_halaman', '>', 0)
+        ->select('menu.*', 'halaman.*')
+        ->orderBy('halaman.page_halaman', 'ASC')
+        ->get();
 
         // Mengelompokkan berdasarkan menu_id
         $grouphalaman = $halaman->groupBy('menu_id');
@@ -121,10 +128,12 @@ class FrontController extends Controller
 
         //halaman urut
         $halaman = Halaman::leftJoin('menu', 'halaman.menu_id', '=', 'menu.id')
-            ->select('menu.*', 'halaman.*')
-            ->where('halaman.page_halaman', '>', 0)
-            ->orderBy('halaman.page_halaman', 'ASC')
-            ->get();
+        ->where('menu.is_active', 1)
+        ->where('halaman.is_active',1)
+        ->where('halaman.page_halaman', '>', 0)
+        ->select('menu.*', 'halaman.*')
+        ->orderBy('halaman.page_halaman', 'ASC')
+        ->get();
 
         // Mengelompokkan berdasarkan menu_id
         $grouphalaman = $halaman->groupBy('menu_id');
@@ -146,10 +155,12 @@ class FrontController extends Controller
     {
         //halaman urut
         $halaman = Halaman::leftJoin('menu', 'halaman.menu_id', '=', 'menu.id')
-            ->select('menu.*', 'halaman.*')
-            ->where('halaman.page_halaman', '>', 0)
-            ->orderBy('halaman.page_halaman', 'ASC')
-            ->get();
+        ->where('menu.is_active', 1)
+        ->where('halaman.is_active',1)
+        ->where('halaman.page_halaman', '>', 0)
+        ->select('menu.*', 'halaman.*')
+        ->orderBy('halaman.page_halaman', 'ASC')
+        ->get();
 
         // Mengelompokkan berdasarkan menu_id
         $grouphalaman = $halaman->groupBy('menu_id');
@@ -167,10 +178,12 @@ class FrontController extends Controller
     {
         //halaman urut
         $halaman = Halaman::leftJoin('menu', 'halaman.menu_id', '=', 'menu.id')
-            ->select('menu.*', 'halaman.*')
-            ->where('halaman.page_halaman', '>', 0)
-            ->orderBy('halaman.page_halaman', 'ASC')
-            ->get();
+        ->where('menu.is_active', 1)
+        ->where('halaman.is_active',1)
+        ->where('halaman.page_halaman', '>', 0)
+        ->select('menu.*', 'halaman.*')
+        ->orderBy('halaman.page_halaman', 'ASC')
+        ->get();
 
         // Mengelompokkan berdasarkan menu_id
         $grouphalaman = $halaman->groupBy('menu_id');
@@ -244,10 +257,12 @@ class FrontController extends Controller
     {
         //halaman urut
         $halaman = Halaman::leftJoin('menu', 'halaman.menu_id', '=', 'menu.id')
-            ->select('menu.*', 'halaman.*')
-            ->where('halaman.page_halaman', '>', 0)
-            ->orderBy('halaman.page_halaman', 'ASC')
-            ->get();
+        ->where('menu.is_active', 1)
+        ->where('halaman.is_active',1)
+        ->where('halaman.page_halaman', '>', 0)
+        ->select('menu.*', 'halaman.*')
+        ->orderBy('halaman.page_halaman', 'ASC')
+        ->get();
 
         // Mengelompokkan berdasarkan menu_id
         $grouphalaman = $halaman->groupBy('menu_id');

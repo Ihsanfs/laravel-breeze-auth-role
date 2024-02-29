@@ -42,9 +42,9 @@
 
         #g_gallery:hover {
             -ms-transform: scale(1.5);
-            /* IE 9 */
+
             -webkit-transform: scale(1.5);
-            /* Safari 3-8 */
+
             transform: scale(1.5);
         }
 
@@ -57,17 +57,30 @@
             background: none;
         }
 
-        .swiper-slide img {
-            display: block;
+
+        #g_gal {
             width: 100%;
-            /* Mengisi lebar slider */
-            height: auto;
-            /* Mengatur tinggi sesuai aspek rasio */
-            object-fit: cover;
-            /* Memastikan gambar tidak terdistorsi */
+            height: 400px;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Elements */
+        #g_gal img {
+
+            object-fit: cover;
+            width: calc(100% - 20px);
+
+            height: calc(100% - 70px);
+
+            position: absolute;
+            top: 70px;
+
+            left: 8px;
+
+            right: 12px;
+
+        }
+
         .section {
             margin: 0 auto;
             padding-block: 5rem;
@@ -80,25 +93,34 @@
             padding-inline: 1.25rem;
         }
 
-        .swiper {
+        .gambar-container {
+            width: 640px;
+            height: 260px;
+            overflow: hidden;
+        }
 
-            &-button-next::after,
-            &-button-prev::after {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 0.75rem;
-                font-weight: 800;
-                padding: 1rem;
-                width: 2rem;
-                height: 2rem;
-                opacity: 0.75;
-                border-radius: 50%;
-                color: var(--white-100);
-                background: var(--black-300);
-            }
+
+        .image-container {
+            width: 100%;
+            height: 0;
+            padding-top: 60%;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .swiper-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     </style>
+
+
+
 
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
@@ -131,218 +153,174 @@
             </div>
         </section>
 
-        <section id="instansi">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 text-center justify-content-center">
-                        <h2>Instansi</h2>
-                        <div class="card p-2 border-0">
-                            <img src="{{ asset($instansi->foto_instansi) }}"
-                                style="height: 500px; width:400px; margin-left: auto;
-                            margin-right: auto;"
-                                class="img-fluid " alt="">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 text-center">
-                        <h2>Kepala Instansi</h2>
-                        <div class="card p-2">
-                            <img src="{{ asset($instansi->foto_kepala) }}" class="img-fluid" alt="">
-                            <h4>{{ $instansi->nama }}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-            @if (count($berita_terbaru) > 0)
-                <div class="container" data-aos="fade-up">
-                    <section id="recent-blog-posts" class="recent-blog-posts">
-                        <div class="container" data-aos="fade-up">
-                            <header class="section-header">
-                                <p>Berita Utama</p>
-                            </header>
-                            <div class="row">
-                                @foreach ($berita_terbaru as $key => $item)
-                                    <div class="col-lg-4 mb-2">
-                                        <div class="post-box">
-                                            <div class="post-img"><img src="{{ asset($item->gambar_artikel) }}"
-                                                    class="img-fluid" alt=""></div>
-                                            <span>{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('j, F Y') }}
-                                                <i class="fa-solid fa-eye"></i> {{ $item->views }}</span>
-                                            <h3 class="post-title">{{ $item->judul }}</h3>
-                                            <a href="{{ route('detail', $item->slug) }}"
-                                                class="readmore stretched-link mt-auto"><span>Selengkapnya</span><i
-                                                    class="bi bi-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                @endforeach
-                                <a class="btn btn-success" href="{{ route('berita_lengkap') }}">Lihat Selengkapnya</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            @endif
-
-
-
-
-
-            </div>
-            @if (count($berita_populer) > 0)
+        @if ($instansi)
+            <section id="instansi">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-12">
-
-                            <div class="container slider-column ">
-                                <header class="section-header">
-                                    <p>Berita Popular</p>
-                                </header>
-                                <div class="swiper swiper-slider ">
-                                    <div class="swiper-wrapper h-100">
-                                        @foreach ($berita_populer as $key => $item)
-                                            <div class="swiper-slide h-100">
-                                                <img src="{{ asset($item->gambar_artikel) }}" alt="Swiper"
-                                                    class="img-fluid rounded h-100">
-                                                <div class="card-body mt-1 ">
-                                                    <strong>
-                                                        <h2 style="font-size: 20px;">{{ $item->judul }}</h2>
-                                                    </strong>
-                                                    <p>
-                                                        <i class="fa-solid fa-user"></i> {{ $item->users->name }}
-                                                        <i class="fa-regular fa-calendar-days"></i>
-                                                        {{ $item->created_at->format('d-m-Y') }}
-                                                        <span><i class="fa-solid fa-eye"></i> {{ $item->views }}</span>
-                                                    </p>
-                                                </div>
-                                                <a href="{{ route('detail', $item->slug) }}"
-                                                    class="btn btn-dark bg-gradient btn-sm btn-detail"
-                                                    target="_blank">Detail <i class="fa-solid fa-arrow-right"></i></a>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="mt-4">
-                                        <div class="swiper-pagination custom-pagination "></div>
-                                    </div>
-                                    {{-- <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div> --}}
-                                </div>
-
+                        <div class="col-md-8 text-center justify-content-center">
+                            <h2>Instansi</h2>
+                            <div class="card p-2 border-0">
+                                <img src="{{ asset($instansi->foto_instansi) }}"
+                                    style="height: 500px; width:400px; margin-left: auto;
+                            margin-right: auto;"
+                                    class="img-fluid " alt="">
                             </div>
-
                         </div>
-            @endif
-            {{-- <div class="col-md-4">
-                            <form action="{{ route('search_berita') }}" method="GET">
-                                <div class="input-group mt-2 mb-3 rounded">
 
-                                    <input type="text" class="form-control" name="cari_berita" placeholder="Search Keyword"
-                                        autocomplete="off">
-                                    <div class="input-group-append p-2">
-                                        <button class="btn btn-outline-success mr-2 ml-2" type="submit">Search</button>
-                                    </div>
-
-                                </div>
-                            </form>
-                            <h3>Berita Populer</h3>
+                        <div class="col-md-4 text-center">
+                            <h2>Kepala Instansi</h2>
                             <div class="card p-2">
-                                <div class="row">
-                                    @foreach ($berita_populer as $berita => $populer)
-                                        <div class="col-md-12">
-                                            <div class=" p-2">
-                                                <div class="card  p-2 h-100 border-1">
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <a href="{{ route('detail', $populer->slug) }}">
-                                                                    <img class="card-img-top"
-                                                                        src="{{ asset($populer->gambar_artikel) }}"
-                                                                        alt="Card image cap"
-                                                                        style="max-width: 100%; height: auto;">
-                                                                </a>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <p style="font-size: 15px">{{ $populer->judul }}</p>
-                                                                <p style="font-size: 15px"><i
-                                                                        class="fa-regular fa-calendar-days"></i>
-                                                                    {{ $populer->created_at->format('d M Y') }}</p>
+                                <img src="{{ asset($instansi->foto_kepala) }}" class="img-fluid" alt="">
+                                <h4>{{ $instansi->nama }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @endif
 
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
+        @if (count($berita_terbaru) > 0)
+            <div class="container" data-aos="fade-up">
+                <section id="recent-blog-posts" class="recent-blog-posts">
+                    <div class="container" data-aos="fade-up">
+                        <header class="section-header">
+                            <p>Berita Utama</p>
+                        </header>
+                        <div class="row">
+                            @foreach ($berita_terbaru as $key => $item)
+                                <div class="col-lg-4 mb-2">
+                                    <div class="post-box">
+                                        <div class="post-img">
+                                            <div class="gambar-container">
+                                                <img src="{{ asset($item->gambar_artikel) }}" class="img-fluid"
+                                                    alt="">
                                             </div>
+                                        </div>
+                                        <span>{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('j, F Y') }}
+                                            <i class="fa-solid fa-eye"></i> {{ $item->views }}</span>
+                                        <h3 class="post-title">{{ $item->judul }}</h3>
+                                        <a href="{{ route('detail', $item->slug) }}"
+                                            class="readmore stretched-link mt-auto"><span>Selengkapnya</span><i
+                                                class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            @endforeach
+                            <a class="btn btn-success" href="{{ route('berita_lengkap') }}">Lihat Selengkapnya</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        @endif
 
+
+
+
+
+        </div>
+        @if (count($berita_populer) > 0)
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="container slide-container">
+                            <header class="section-header">
+                                <p>Berita Popular</p>
+                            </header>
+                            <div class="swiper swiper-slider">
+                                <div class="swiper-wrapper">
+                                    @foreach ($berita_populer as $key => $item)
+                                        <div class="swiper-slide">
+                                            <div class="image-container">
+                                                <img src="{{ asset($item->gambar_artikel) }}" alt="Swiper"
+                                                    class="swiper-image">
+                                            </div>
+                                            <div class="card-body mt-1">
+                                                <strong>
+                                                    <h2 style="font-size: 20px;">{{ $item->judul }}</h2>
+                                                </strong>
+                                                <p>
+                                                    <i class="fa-solid fa-user"></i> {{ $item->users->name }}
+                                                    <i class="fa-regular fa-calendar-days"></i>
+                                                    {{ $item->created_at->format('d-m-Y') }}
+                                                    <span><i class="fa-solid fa-eye"></i> {{ $item->views }}</span>
+                                                </p>
+                                            </div>
+                                            <a href="{{ route('detail', $item->slug) }}"
+                                                class="btn btn-dark bg-gradient btn-sm btn-detail" target="_blank">Detail <i
+                                                    class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     @endforeach
-
-
+                                </div>
+                                <div class="mt-4">
+                                    <div class="swiper-pagination custom-pagination"></div>
                                 </div>
                             </div>
-
-                            <div class="card mt-2 p-2">
-                                <div class="card-title text-center">Bupati dan Wakil Bupati Pasaman Barat</div>
-                                <img src="{{ asset('gambar/bupati.png') }}" class="img-fluid">
-                            </div>
-                        </div> --}}
-            </div>
-            </div>
-
-     
-
-
-
-
-
-
-        <section class="gallery" id="gallery">
-            <div class="container">
-                <div class="card p-2 border-0">
-
-                    <header class="section-header">
-
-                        <p>Galeri</p>
-                    </header>
-                    <div class="row">
-                        @foreach ($galeri as $item)
-                            <div class="col-md-4 mb-2 mt-2">
-                                <div class="card h-100">
-                                    <img src="{{ asset($item->gambar_galery) }}" class="card-img-top img-fluid"
-                                        alt="" data-toggle="modal" data-target="#galleryModal{{ $item->id }}">
-
-                                    <div class="card-body">
-
-                                        <h4 class="card-text">{{ $item->nama }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="galleryModal{{ $item->id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="galleryModalLabel{{ $item->id }}" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="galleryModalLabel{{ $item->id }}">
-                                                {{ $item->nama }}</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <img src="{{ asset($item->gambar_galery) }}" class="img-fluid"
-                                                alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
+        @endif
 
+
+
+        </div>
+        </div>
+
+
+        @if (count($galeri) > 0)
+            <section class="gallery" id="gallery">
+                <div class="container">
+                    <div class="card p-2 border-0">
+
+                        <header class="section-header">
+
+                            <p>Galeri</p>
+                        </header>
+                        <div class="row">
+                            @foreach ($galeri as $item)
+                                <div class="col-md-4 mb-2 mt-2">
+                                    <div class="card h-100 p-2">
+                                        <a href="#" class="album-link" data-toggle="modal"  data-target="#modalalbum"
+                                            data-album-id="{{ $item->id }}">
+                                            <img src="{{ asset($item->album_image) }}" id="g_gal" alt="" />
+                                        </a>
+
+
+                                        <div class="card-body">
+                                            <h4 class="card-text">{{ $item->nama_album }}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="modal fade" id="modalalbum" tabindex="-1" role="dialog" aria-labelledby="modalalbumLabel"
+                        aria-hidden="true" data-backdrop="static"  >
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalalbumLabel">Gallery</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div id="galeri" class="row"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        @endif
 
 
 
@@ -353,6 +331,57 @@
     </main>
 
     @include('front.layouts.footer')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.album-link').on('click', function(e) {
+                e.preventDefault();
+
+                var albumId = $(this).data('album-id');
+
+                $.ajax({
+                    url: "{{ route('album_tampil', '') }}/" + albumId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var galeri = $('#galeri');
+                        galeri.empty();
+
+                        if (response.length === 0) {
+                            galeri.append(
+                                '<div class="col-md-12 text-center">No images found</div>');
+                        } else {
+                            $.each(response, function(index, image) {
+                                var imageUrl =
+                                    `{{ asset('') }}${image.gambar_galery}`;
+                                galeri.append(`
+                                    <div class="col-md-6 mb-2 mt-2 p-2">
+                                        <div class="card p-2">
+                                            ${image.is_active == 0 ? '<p class="text-center text-white bg-dark">Draft</p>' : ''}
+                                            <a data-fancybox="${image.id_album}" href="${imageUrl}" data-caption="${image.nama}" data-sizes="(max-width: 600px) 480px, 800px">
+                                                <img src="${imageUrl}" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;" alt="" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                `);
+                            });
+                            Fancybox.bind('[data-fancybox]', {});
+                        }
+                    },
+                    error: function(xhr, status, error) {
+
+                    }
+                });
+            });
+
+
+        });
+    </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const swiper = new Swiper(".swiper-slider", {

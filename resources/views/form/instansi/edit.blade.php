@@ -2,7 +2,7 @@
 @section('content')
 @include('alert.alert')
     <div class="container">
-        <h2 class="text-white">Profil Instansi</h2>
+        <h2 class="text-dark">Profil Instansi</h2>
         <div class="row py-4">
 
                 <div class="col-12 col-md-6 mb-2">

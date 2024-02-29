@@ -77,10 +77,10 @@
                 {{-- @foreach ($kategori->pluck('nama_kategori') as $nama_kategori)
                 <h4>kategori : {{$nama_kategori}}</h4>
             @endforeach --}}
-                <div class="div">
+                {{-- <div class="div">
                     <h2> kategori : {{ $category }}</h2>
 
-                </div>
+                </div> --}}
 
                 </header>
                 <div class="row">
@@ -126,7 +126,7 @@
                                                 <p style="font-size: 12px">
                                                     <i class="fa-solid fa-user"></i> {{ $item->name }}
                                                     <i class="fa-regular fa-calendar-days"></i>
-                                                    {{ $item->created_at->format('d-m-Y') }}
+                                                    {{ $item->created_at->format('d M Y')  }}
                                                     <span><i class="fa-solid fa-eye"></i> {{ $item->views }}</span>
                                                 </p>
                                             </div>

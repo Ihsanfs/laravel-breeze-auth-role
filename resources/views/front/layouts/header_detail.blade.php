@@ -8,21 +8,31 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="nav-link scrollto active" href="{{route('beranda')}}">Home</a></li>
+                <li><a class="nav-link scrollto active" href="{{ route('beranda') }}">Home</a></li>
 
 
                 @foreach ($menu as $key => $data)
-                <li class="dropdown">
-                    <a href="#"><span> {{ $data->nama }}</span> <i class="bi bi-chevron-down"></i></a>
-                    <ul>
-
-                            @foreach ($grouphalaman[$data->id] as $item)
-                                <li><a href="{{ route('halaman', $item->slug) }}"> {{ $item->nama }}</a></li>
-                            @endforeach
-
-                    </ul>
-                </li>
-            @endforeach
+                    @if ($data->url)
+                        <a href="{{ $data->url }}"><span>{{ $data->nama }}</span></a>
+                    @else
+                        <li class="dropdown">
+                            <a href="#"><span>{{ $data->nama }}</span> <i class="bi bi-chevron-down"></i></a>
+                            <ul>
+                                @if (isset($grouphalaman[$data->id]))
+                                    @foreach ($grouphalaman[$data->id] as $item)
+                                        <li>
+                                            @if ($item->deskripsi)
+                                                <a href="{{ route('halaman', $item->slug) }}">{{ $item->nama }}</a>
+                                            @elseif ($item->url)
+                                                <a href="{{ $item->url }}">{{ $item->nama }}</a>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+                @endforeach
 
 
 

@@ -10,10 +10,19 @@
                 @method('POST')
                 @csrf
             <div class="form-group">
-                <label>judul</label>
-                <input type="text" name="judul"  class="form-control" placeholder="Enter judul">
+                <label>Judul gambar</label>
+                <input type="text" name="judul"  class="form-control" placeholder="judul" required>
             </div>
 
+            <div class="form-group">
+                <label for="album"> Nama Album</label>
+                <select name="album" class="form-control" required>
+                    <option value="#" selected disabled> Pilih Album</option>
+                    @foreach ($album as $item)
+                    <option value="{{$item->id}}">{{$item->nama_album}}</option>
+                    @endforeach
+                </select>
+            </div>
 
 
             <div class="form-group">

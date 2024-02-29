@@ -38,7 +38,14 @@
 
                     </div>
                     @endif
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
                 </div>
+
+
                 <div class="col-12 col-md-6 mb-2">
                     <div class="form-group">
                         <label for="gambar">Foto Users</label>

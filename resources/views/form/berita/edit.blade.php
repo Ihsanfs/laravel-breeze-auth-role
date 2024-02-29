@@ -5,7 +5,7 @@
 <div class="card-body">
     <div class="row">
 
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-12 col-lg-12">
             <form action="{{ route($role.'.berita_update', $berita->id) }}" method="POST" enctype="multipart/form-data">
 
                 @csrf
@@ -39,8 +39,8 @@
             <div class="form-group">
                 <label for="tag_id">Tag</label>
                 <select name="tag_id[]" class="form-control js-example-tokenizer" multiple="multiple">
-                    @foreach ($tag as $tags)
-                        <option value="{{ $tags->id }}" @if(in_array($tags->id, $selectedTags)) selected @endif>{{ $tags->nama_tag }}</option>
+                    @foreach ($tag_all as $tag)
+                        <option value="{{ $tag->id }}" @if(in_array($tag->id, $selectedTags)) selected @endif>{{ $tag->nama_tag }}</option>
                     @endforeach
                 </select>
             </div>
@@ -48,11 +48,13 @@
             <div class="form-group">
                 <label for="tag_id">Kategori</label>
                 <select name="kategori_id[]" class="form-control js-example-tokenizer" multiple="multiple">
-                    @foreach ($kategori_tag as $item)
-                        <option value="{{ $item->id }}" @if(in_array($item->id, $kategori_artikel)) selected @endif>{{ $item->nama_kategori }}</option>
+                    @foreach ($kategori_all as $kategori)
+                        <option value="{{ $kategori->id }}" @if(in_array($kategori->id, $kategori_artikel)) selected @endif>{{ $kategori->nama_kategori }}</option>
                     @endforeach
                 </select>
             </div>
+
+
 
 
             <div class="form-group">
@@ -89,3 +91,16 @@
 @endsection
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+<script>
+    $(document).ready(function () {
+        CKEDITOR.replace('editor1');
+    config.sourceAreaTabSize = 8;
+    });
+
+</script>
+@endpush

@@ -50,14 +50,18 @@ class UsersController extends Controller
 
         try {
             $this->validate($request, [
-                'judul' => 'required',
-                'gambar_user' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+
                 'is_active' => 'required',
                 'role' => 'required',
-                'nama' => 'required',
                 'password' => 'required',
 
             ]);
+
+            if($request->gambar_user){
+                $this->validate($request, [
+                    'gambar_user' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                ]);
+            }
 
             $roles = Role::find($request->role);
 
@@ -80,10 +84,10 @@ class UsersController extends Controller
                 $file->move(public_path('images/profil'), $fileName);
                 $users->gambar = $filePath;
             }
-
+            // dd($users);
             $users->save();
 
-            return redirect()->route('superadmin.users')->with(['success' => 'Data berhasil ditambahkan']);
+            return redirect()->route('superadmin.users_all')->with(['success' => 'Data berhasil ditambahkan']);
         } catch (\Exception $e) {
             return back()->with(['error' => 'Data gagal ditambahkan' . $e->getMessage()]);
         }
@@ -171,6 +175,11 @@ public function update_user(Request $request, $id){
     $user->name = $request->nama;
     $user->is_active = $request->is_active;
     $user->role_id = $request->role;
+    if($request->password){
+        $user->password = Hash::make($request->password);
+
+    }
+
     if ($request->hasFile('gambar_user')) {
         $file = $request->file('gambar_user');
         $fileName = $file->getClientOriginalName();

@@ -17,6 +17,7 @@
                         <th>No</th>
                         <th>Nama</th>
                         <th>Role</th>
+                        <th>email</th>
                         <th>status</th>
                         <th>action</th>
                     </tr>
@@ -36,6 +37,9 @@
                             @else
                                 <!-- Provide content for the else condition -->
                             @endif
+                        </td>
+                        <td>
+                            {{$row->email}}
                         </td>
                         <td>
                             @if($row->is_active == 1)
