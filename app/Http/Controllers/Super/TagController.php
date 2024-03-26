@@ -12,12 +12,16 @@ use Illuminate\Support\Str;
 class TagController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('setUserRole');
+    }
 
-    public function index()
+    public function index(Request $request)
     {
         $tag = tag::all();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.tag.index', compact('tag', 'role'));
     }
 
@@ -78,7 +82,7 @@ class TagController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-    
+
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
             return redirect()->back()->with(['error' => implode('<br>', $errors)])->withInput();

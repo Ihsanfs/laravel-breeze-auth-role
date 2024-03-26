@@ -216,8 +216,17 @@
 
                         <li class="nav-item">
 							<a href="{{route($role.'.galery')}}">
-                                <i class="fa-solid fa-newspaper"></i>
+                                <i class="fa-solid fa-photo-film"></i>
 								<p>Gallery</p>
+
+							</a>
+
+						</li>
+
+                        <li class="nav-item">
+							<a href="{{route($role.'.slider_index')}}">
+                                <i class="fa-solid fa-photo-film"></i>
+								<p>Slider</p>
 
 							</a>
 

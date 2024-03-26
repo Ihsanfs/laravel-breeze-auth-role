@@ -9,6 +9,7 @@ use App\Http\Controllers\Super;
 use App\Http\Controllers\Admin\StudentsController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\SliderController;
 
 // use App\Http\Controllers\Super;
 
@@ -33,13 +34,13 @@ Route::middleware(['web'])->group(function () {
 
     Route::get('/halaman/{slug}', [FrontController::class, 'halaman'])->name('halaman');
 
+
     Route::get('/search/berita/', [FrontController::class, 'search_berita'])->name('search_berita');
     Route::get('/news', [FrontController::class, 'berita_lengkap'])->name('berita_lengkap');
     Route::get('/category/{slug}', [FrontController::class, 'kategori_tag'])->name('kategori_tag');
     Route::get('/kategori/{category}', [FrontController::class, 'kategori_tampil'])->name('kategori_tampil');
     Route::get('/tag/{tag}', [FrontController::class, 'tag_tampil'])->name('tag_tampil');
-
-    Route::get('/album/tampil/{id}', [Super\FotoController::class, 'album_isi'])
+    Route::get('/album/galeri/{album}', [Super\FotoController::class, 'album_isi'])
     ->name('album_tampil');
 });
 
@@ -125,7 +126,7 @@ Route::middleware(['auth', 'verified', 'role:1'])
             Route::post('/album/store', [Super\FotoController::class, 'album_store'])
             ->name('album_store');
 
-            Route::get('/album/data/{id}', [Super\FotoController::class, 'album_isi'])
+            Route::get('/album/data/{id}', [Super\FotoController::class, 'album_galeri'])
             ->name('album_isi');
 
             Route::get('/album/data/edit/{id}', [Super\FotoController::class, 'album_edit'])
@@ -152,6 +153,16 @@ Route::middleware(['auth', 'verified', 'role:1'])
 
         Route::get('/instansi/{id}/edit', [Super\InstansiController::class, 'edit'])
             ->name('instansi_edit');
+
+
+        //slider foto
+        Route::get('/slider', [SliderController::class, 'index'])->name('slider_index');
+        Route::get('/slider/create', [SliderController::class, 'create'])->name('slider_create');
+        Route::post('/slider/store', [SliderController::class, 'store'])->name('slider_store');
+        Route::delete('/slider/delete/{id}', [SliderController::class, 'destroy'])->name('slider_delete');
+        Route::put('/slider/update/{id}', [SliderController::class, 'update'])->name('slider_update');
+
+
 
 
 
@@ -212,7 +223,7 @@ Route::middleware(['auth', 'verified', 'role:1'])
             ->name('menu_edit');
         Route::put('/menu/update/{id}', [MenuController::class, 'update'])
             ->name('menu_update');
-        Route::delete('/menu/destroy/{id}', [MenuController::class, 'index'])
+            Route::delete('/menu/destroy/{id}', [MenuController::class, 'delete'])
             ->name('menu_delete');
         Route::post('/menu/store', [MenuController::class, 'store'])
             ->name('menu_store');
@@ -373,14 +384,22 @@ Route::middleware(['auth', 'verified', 'role:2'])
             ->name('menu_edit');
         Route::put('/menu/update/{id}', [MenuController::class, 'update'])
             ->name('menu_update');
-        Route::delete('/menu/destroy/{id}', [MenuController::class, 'index'])
+        Route::delete('/menu/destroy/{id}', [MenuController::class, 'delete'])
             ->name('menu_delete');
         Route::post('/menu/store', [MenuController::class, 'store'])
             ->name('menu_store');
         //album
+        Route::get('/album/data/{id}', [Super\FotoController::class, 'album_galeri'])
+        ->name('album_isi');
         Route::get('/album/create', [Super\FotoController::class, 'album_create'])
             ->name('album_create');
+            Route::get('/album/data/edit/{id}', [Super\FotoController::class, 'album_edit'])
+            ->name('album_edit');
+            Route::put('/album/data/update/{id}', [Super\FotoController::class, 'album_update'])
+            ->name('album_update');
 
+            Route::delete('/album/data/delete/{id}', [Super\FotoController::class, 'album_delete'])
+            ->name('album_delete');
         //tag
         Route::get('/tag', [Super\TagController::class, 'index'])
             ->name('tag.index');
@@ -392,6 +411,14 @@ Route::middleware(['auth', 'verified', 'role:2'])
 
         Route::patch('/tag/{id}/update', [Super\TagController::class, 'update'])
             ->name('tag.update');
+
+
+             //slider foto
+        Route::get('/slider', [SliderController::class, 'index'])->name('slider_index');
+        Route::get('/slider/create', [SliderController::class, 'create'])->name('slider_create');
+        Route::post('/slider/store', [SliderController::class, 'store'])->name('slider_store');
+        Route::delete('/slider/delete/{id}', [SliderController::class, 'destroy'])->name('slider_delete');
+        Route::put('/slider/update/{id}', [SliderController::class, 'update'])->name('slider_update');
     });
 
 

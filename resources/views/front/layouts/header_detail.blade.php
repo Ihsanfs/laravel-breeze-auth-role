@@ -12,27 +12,31 @@
 
 
                 @foreach ($menu as $key => $data)
-                    @if ($data->url)
-                        <a href="{{ $data->url }}"><span>{{ $data->nama }}</span></a>
-                    @else
+                @if ($data->status == 4)
+                    <a href="{{ route('halaman', $data->slug) }}">{{ $data->nama }}</a>
+                @elseif ($data->url)
+                    <a href="{{ $data->url }}"><span>{{ $data->nama }}</span></a>
+                @else
+                    @if ($grouphalaman->has($data->id))
                         <li class="dropdown">
-                            <a href="#"><span>{{ $data->nama }}</span> <i class="bi bi-chevron-down"></i></a>
+                            <a href="#"><span>{{ $data->nama }}</span> <i
+                                    class="bi bi-chevron-down"></i></a>
                             <ul>
-                                @if (isset($grouphalaman[$data->id]))
-                                    @foreach ($grouphalaman[$data->id] as $item)
-                                        <li>
-                                            @if ($item->deskripsi)
-                                                <a href="{{ route('halaman', $item->slug) }}">{{ $item->nama }}</a>
-                                            @elseif ($item->url)
-                                                <a href="{{ $item->url }}">{{ $item->nama }}</a>
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                @endif
+                                @foreach ($grouphalaman[$data->id] as $item)
+                                    <li>
+                                        @if ($item->deskripsi)
+                                            <a href="{{ route('halaman', $item->slug) }}">{{ $item->nama }}</a>
+                                        @elseif ($item->url)
+                                            <a href="{{ $item->url }}">{{ $item->nama }}</a>
+                                        @endif
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                     @endif
-                @endforeach
+                @endif
+            @endforeach
+
 
 
 

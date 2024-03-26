@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class SlideController extends Controller
 {
-   public function index(){
+    public function __construct()
+    {
+        $this->middleware('setUserRole');
+    }
+
+   public function index(Request $request){
     $slide = Slide::all();
     $userRole = Auth::user()->role_id;
     $role = ($userRole == 2) ? 'admin' : 'superadmin';
@@ -17,9 +22,9 @@ class SlideController extends Controller
    }
 
 
-   public function create(){
-    $userRole = Auth::user()->role_id;
-    $role = ($userRole == 2) ? 'admin' : 'superadmin';
+   public function create(Request $request){
+    $role = $request->role;
+
     return view ('form.slide.create',compact('role'));
 
    }
@@ -62,10 +67,10 @@ class SlideController extends Controller
 
         }
 
-   public function edit($id){
+   public function edit(Request $request,$id){
         $slide = Slide::find($id);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.slide.edit',compact('slide','role'));
    }
 
@@ -83,8 +88,8 @@ class SlideController extends Controller
             return back()->with(['error' => 'Slide not found']);
         }
 
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
 
         // Check if a new file is uploaded
         if ($request->hasFile('video_slide')) {

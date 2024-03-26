@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Super;
 
 use App\Http\Controllers\Controller;
 use App\Models\album;
+use App\Models\artikel;
 use App\Models\Gallery;
+use App\Models\halaman;
+use App\Models\menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -12,25 +15,30 @@ use Illuminate\Support\Facades\Auth;
 class FotoController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('setUserRole');
+    }
 
-    public function index()
+
+    public function index(Request $request)
     {
 
         $gallery = album::all();
         $foto = Gallery::join('album', 'album.id', '=', 'gallery.id_album')->where('gallery.is_active', 1)
-        ->get();
+            ->get();
 
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.gallery.index', compact('gallery', 'role', 'foto'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
 
         $album = album::where('is_active', 1)->get();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.gallery.create', compact('role', 'album'));
     }
 
@@ -57,30 +65,43 @@ class FotoController extends Controller
 
         $gallery->is_active = $request->is_active;
         $gallery->save();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return redirect()->route($role . '.galery')->with(['success' => 'Gambar berhasil ditambahkan']);
     }
 
 
 
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         $gallery = Gallery::find($id);
 
         // dd($gallery);;
         return view('form.gallery.editgaleri', compact('gallery', 'role'));
     }
-
     public function destroy($id)
     {
-        $artikel = Gallery::find($id);
-        $artikel->delete();
-        return back()->with(['success' => 'gambar berhasil di hapus']);
+        $gallery = Gallery::find($id);
+
+        if (!$gallery) {
+            return back()->with(['error' => 'Galeri tidak ditemukan']);
+        }
+        if ($gallery->gambar) {
+            $filePath = public_path($gallery->gambar);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+
+        $gallery->delete();
+
+        return back()->with(['success' => 'Gambar berhasil dihapus']);
     }
+
 
     public function update(Request $request, $id)
     {
@@ -89,8 +110,8 @@ class FotoController extends Controller
             'gambar_galery' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         $gallery = Gallery::find($id);
 
         $gallery->nama = $request->judul;
@@ -128,8 +149,8 @@ class FotoController extends Controller
     public function album_store(Request $request)
     {
 
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         try {
             $this->validate($request, [
                 'judul_album' => 'required|string|max:255',
@@ -140,6 +161,7 @@ class FotoController extends Controller
             $album = new Album();
             $album->nama_album = $request->judul_album;
             $album->user_id = Auth::user()->id;
+            $album->slug = str::slug($request->judul_album);
 
             if ($request->hasFile('gambar_album')) {
                 $rand = rand(10, 999);
@@ -153,7 +175,7 @@ class FotoController extends Controller
             $album->is_active = $request->is_active;
             $album->save();
 
-            // Redirect somewhere after successful save
+
             return redirect()->route($role . '.galery')->with(['success' => 'album berhasil dibuat']);
         } catch (\Exception $e) {
 
@@ -161,27 +183,37 @@ class FotoController extends Controller
         }
     }
 
-    public function album_isi($id)
+    public function album_isi($album)
     {
 
-
-        $gambar = album::join('gallery', 'album.id', '=', 'gallery.id_album')
-            ->where('id_album', $id)
-            ->select('gallery.id_album', 'gallery.gambar_galery', 'gallery.nama', 'gallery.id','gallery.is_active')
-            ->groupBy('gallery.id_album', 'gallery.gambar_galery', 'gallery.nama', 'gallery.id','gallery.is_active')
+        //halaman urut
+        $halaman = halaman::leftJoin('menu', 'halaman.menu_id', '=', 'menu.id')
+            ->where('menu.is_active', 1)
+            ->where('halaman.is_active', 1)
+            ->where('halaman.page_halaman', '>', 0)
+            ->select('menu.*', 'halaman.*')
+            ->orderBy('halaman.page_halaman', 'ASC')
             ->get();
 
-        return response()->json($gambar);
+        $grouphalaman = $halaman->groupBy('menu_id');
 
 
+        $menu = menu::where('is_active', 1)->get();
+        $gambar = album::join('gallery', 'gallery.id_album', '=', 'album.id')
+            ->where('slug', $album)
+            ->select('gallery.id_album', 'gallery.gambar_galery', 'gallery.nama', 'gallery.id', 'gallery.is_active')
+            ->groupBy('gallery.id_album', 'gallery.gambar_galery', 'gallery.nama', 'gallery.id', 'gallery.is_active')
+            ->get();
+
+        return view('front.albumdetail', compact('gambar','menu', 'grouphalaman','album'));
     }
 
-    public function album_edit($id)
+    public function album_edit(Request $request,$id)
     {
 
         $album = album::findorfail($id);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         // dd($album);
         return view('form.gallery.edit', compact('album', 'role'));
     }
@@ -193,8 +225,8 @@ class FotoController extends Controller
             'gambar_album' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
 
         $artikel = album::find($id);
 
@@ -208,6 +240,7 @@ class FotoController extends Controller
         }
 
         $artikel->nama_album = $request->judul;
+        $artikel->slug = str::slug($request->judul);
         $artikel->is_active = $request->is_active;
         $artikel->user_id = Auth::user()->id;
         $artikel->update();
@@ -220,16 +253,27 @@ class FotoController extends Controller
     {
         $album = album::findOrFail($id);
 
-        // Hapus file gambar terkait album jika ada
         if (!empty($album->album_image)) {
             $file_path = public_path($album->album_image);
             if (file_exists($file_path)) {
-                unlink($file_path); // Hapus file gambar
+                unlink($file_path);
             }
         }
 
         $album->delete();
 
         return back()->with(['success' => 'Album berhasil dihapus']);
+    }
+
+    public function album_galeri(Request $request,$id){
+        $gambar = album::join('gallery', 'gallery.id_album', '=', 'album.id')
+        ->where('album.id', $id)
+        ->select('gallery.id_album', 'gallery.gambar_galery', 'gallery.nama', 'gallery.id', 'gallery.is_active')
+        ->groupBy('gallery.id_album', 'gallery.gambar_galery', 'gallery.nama', 'gallery.id', 'gallery.is_active')
+        ->get();
+        // dd($gambar);
+        $role = $request->role;
+
+        return view('form.gallery.galeriall', compact('gambar','role'));
     }
 }

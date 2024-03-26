@@ -20,6 +20,7 @@
             timerProgressBar: true,
         });
     </script>
+
 @endif
 @if(Session::has('warning'))
     <script>
@@ -34,3 +35,4 @@
 @endif
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+

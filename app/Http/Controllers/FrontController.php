@@ -11,6 +11,7 @@ use App\Models\instansi;
 use App\Models\kategori;
 use App\Models\kategori_tag;
 use App\Models\menu;
+use App\Models\slider;
 use App\Models\tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -37,12 +38,12 @@ class FrontController extends Controller
         //galery\
         $instansi = instansi::first();
         $galeri = album::all();
-        $berita = Artikel::latest()->take(10)->get(); // Mengambil 10 artikel terbaru
+        $berita = Artikel::latest()->take(10)->get();
 
-        $berita_terbaru = Artikel::orderByDesc('created_at')->take(10)->get(); // Mengambil 10 artikel terbaru dalam urutan descending
+        $berita_terbaru = Artikel::orderByDesc('created_at')->take(6)->get();
 
-
-        return view('front.beranda', compact('halaman', 'berita', 'menu', 'grouphalaman', 'galeri', 'berita_populer', 'instansi', 'berita_terbaru'));
+        $slidertampil = slider::all();
+        return view('front.beranda', compact('halaman', 'berita', 'menu', 'grouphalaman', 'galeri', 'berita_populer', 'instansi', 'berita_terbaru','slidertampil'));
     }
     public function index($slug)
     {
@@ -112,6 +113,12 @@ class FrontController extends Controller
         $grouphalaman = $halaman->groupBy('menu_id');
         $menu = Menu::all();
         $halaman_detail = Halaman::with('author_halaman')->where('slug', $slug)->first();
+
+      
+        if (!$halaman_detail) {
+            $halaman_detail = Menu::where('slug', $slug)->first();
+        }
+        // dd($halaman_detail);
 
         // hitung perclick halaman
         if (isset($halaman_detail->view)) {
@@ -325,4 +332,32 @@ class FrontController extends Controller
         $tags = tag::pluck('slug', 'nama_tag');
         return view('front.detail_tag', compact('tag', 'kategori', 'grouptagLop', 'tags', 'categories', 'tag_data', 'tag_cek', 'tag_lop', 'groupKatLop', 'halaman', 'grouphalaman', 'menu', 'berita', 'berita_baru', 'berita_populer'));
     }
+
+
+    public function halaman_menu($slug)
+    {
+        //halaman urut
+        $halaman = Halaman::leftJoin('menu', 'halaman.menu_id', '=', 'menu.id')
+        ->where('menu.is_active', 1)
+        ->where('halaman.is_active',1)
+        ->where('halaman.page_halaman', '>', 0)
+        ->select('menu.*', 'halaman.*')
+        ->orderBy('halaman.page_halaman', 'ASC')
+        ->get();
+
+        // Mengelompokkan berdasarkan menu_id
+        $grouphalaman = $halaman->groupBy('menu_id');
+        $menu = Menu::all();
+        $halaman_detail = Halaman::with('author_halaman')->where('slug', $slug)->first();
+
+        // hitung perclick halaman
+        if (isset($halaman_detail->view)) {
+            $halaman_detail->increment('view');
+        }
+
+
+
+        return view('front.halaman', compact('halaman_detail', 'halaman', 'menu', 'grouphalaman', 'slug'));
+    }
+
 }

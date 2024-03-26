@@ -39,17 +39,16 @@
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $item->nama_album }}</td>
                             <td>
-                                <a href="#" class="album-link" data-toggle="modal" data-target="#modalalbum"
-                                    data-album-id="{{ $item->id }}">
+
                                     <img src="{{ asset($item->album_image) }}" width="200" height="150"
                                         alt="" />
-                                </a>
+
                             </td>
                             <td>
                                 {{ $foto->where('id_album', $item->id)->count() }} Foto
                             </td>
 
-                            <div class="modal fade" id="modalalbum" tabindex="-1" role="dialog"
+                            {{-- <div class="modal fade" id="modalalbum" tabindex="-1" role="dialog"
                                 aria-labelledby="modalalbumLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-xl" role="document">
                                     <div class="modal-content">
@@ -73,7 +72,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <td>
                                 @if ($item->is_active == 1)
@@ -85,6 +84,8 @@
                             </td>
                             <td><a href="{{ route($role . '.album_edit', ['id' => $item->id]) }}"
                                     class="btn btn-primary btn-sm "><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="{{ route($role . '.album_isi', ['id' => $item->id]) }}"
+                                        class="btn btn-primary btn-sm "><i class="fa fa-edit"></i> Lihat Gallery</a>
                                 <form action="{{ route($role . '.album_delete', ['id' => $item->id]) }}" method="post"
                                     style="display: inline;">
                                     @csrf
@@ -106,12 +107,11 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @push('scripts')
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
-<script>
+{{-- <script>
     $(document).ready(function() {
         $('.album-link').on('click', function(e) {
             e.preventDefault();
@@ -174,10 +174,10 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    // console.error('AJAX Error: ' + error);
+                    console.error('AJAX Error: ' + error);
                 }
             });
         });
     });
-</script>
+</script> --}}
 @endpush

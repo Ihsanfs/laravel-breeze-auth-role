@@ -8,16 +8,21 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redis;
 
 class UsersController extends Controller
 {
-    public function index()
+
+    public function __construct()
+    {
+        $this->middleware('setUserRole');
+    }
+
+    public function index(Request $request)
     {
 
         $user = User::find(auth()->user()->id);
-        // dd($user);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
         return view('form.profil.index', compact('user', 'role'));
     }
 
@@ -34,16 +39,16 @@ class UsersController extends Controller
         }
         $user->name = $request->nama;
         $user->update();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return redirect()->route($role . '.users')->with(['succes' => 'data berhasil di update']);
     }
 
-    public function create(){
+    public function create(Request $request){
 
         $roles = Role::all();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 1) ? 'superadmin' : '';
+        $role = $request->role;
+
         return view('form.profil.create',compact('role','roles'));
     }
     public function store(Request $request){
@@ -93,22 +98,22 @@ class UsersController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         $roles = Role::all();
 
         $user = User::find($id);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.profil.edit', compact('user', 'role','roles'));
     }
 
-    public function password()
+    public function password(Request $request)
     {
 
         $user = User::find(auth()->user()->id);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.profil.password', compact('user','role'));
     }
 
@@ -121,11 +126,11 @@ class UsersController extends Controller
         return back()->with(['success' => 'password berhasil di rubah']);
     }
 
-    public function tampil_user(){
+    public function tampil_user(Request $request){
 
         $user = User::paginate(5);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.profil.tampil_user',compact('user','role'));
     }
 

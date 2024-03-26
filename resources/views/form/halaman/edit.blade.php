@@ -79,8 +79,15 @@
 @endsection
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@push('scripts')
+
 <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
 <script>
-    CKEDITOR.replace('editor1');
+    $(document).ready(function () {
+        CKEDITOR.replace('editor1');
     config.sourceAreaTabSize = 8;
+    });
+
 </script>
+@endpush

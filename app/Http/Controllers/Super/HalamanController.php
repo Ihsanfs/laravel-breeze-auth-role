@@ -14,8 +14,12 @@ use Illuminate\Validation\ValidationException;
 
 class HalamanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('setUserRole');
+    }
 
-    public function index()
+    public function index(Request $request)
     {
 
         $userRole = Auth::user()->role_id;
@@ -24,11 +28,11 @@ class HalamanController extends Controller
         return view('form.halaman.index', compact('halaman', 'role'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $menu = menu::where('is_active', 1)->wherenot('status', 2)->get();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.halaman.create', compact('role', 'menu'));
     }
 
@@ -88,8 +92,8 @@ class HalamanController extends Controller
             $halaman->save();
 
             // Determine user role and redirect to the appropriate route
-            $userRole = Auth::user()->role_id;
-            $role = ($userRole == 2) ? 'admin' : 'superadmin';
+            $role = $request->role;
+
 
             return redirect()->route($role . '.halaman')->with(['success' => 'Halaman berhasil ditambahkan']);
         } catch (\Exception $e) {
@@ -99,13 +103,13 @@ class HalamanController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         $halaman = halaman::find($id);
         $menu = menu::wherenot('status', 2)->get();
 
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
 
         // dd($halaman);
         return view('form.halaman.edit', compact('halaman', 'role', 'menu'));
@@ -139,8 +143,8 @@ class HalamanController extends Controller
         $halaman->is_active = $request->is_active;
         if (!$request->hasFile('g_halaman')) {
             $halaman->update();
-            $userRole = Auth::user()->role_id;
-            $role = ($userRole == 2) ? 'admin' : 'superadmin';
+            $role = $request->role;
+
             return redirect()->route($role . '.halaman')->with(['success' => 'Halaman berhasil diupdate']);
         } else {
 
@@ -152,9 +156,8 @@ class HalamanController extends Controller
 
             $halaman->gambar_h = $filePath;
             $halaman->update();
+            $role = $request->role;
 
-            $userRole = Auth::user()->role_id;
-            $role = ($userRole == 2) ? 'admin' : 'superadmin';
             return redirect()->route($role . '.halaman')->with(['success' => 'Halaman berhasil diupdate']);
         }
     }

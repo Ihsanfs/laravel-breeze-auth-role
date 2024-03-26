@@ -1,4 +1,4 @@
-<!-- ======= Footer ======= -->
+
 <footer id="footer" class="footer">
     <div class="footer-top">
         <div class="container">
@@ -6,16 +6,23 @@
                 <div class="col-lg-5 col-md-12 footer-info">
                     <a href="index.html" class="logo d-flex align-items-center mb-4">
                         {{-- <img src="assets/img/logo.png" alt=""> --}}
-                        <span>Nama OPD</span>
+                        <span>NAGARI KOTO BALINGKA</span>
                     </a>
-                    {{-- <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita
-                        valies darta donna mare fermentum iaculis eu non diam phasellus.</p> --}}
-                    <div class="social-links mt-3">
-                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                    </div>
+        
+                        <div class="social-links mt-3">
+                            <ul>
+                                <li>
+                                    <a href="mailto:salingkamuaro@gmail.com"><i class="fa fa-envelope"></i> <span>salingkamuaro@gmail.com</span></a>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/profile.php?id=100090860664105"><i class="bi bi-facebook"></i> <span>Facebook</span></a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/salingkamuaro?igsh=MTc2dWZteWJ0cGIxcQ=="><i class="bi bi-instagram"></i> <span>Instagram</span></a>
+                                </li>
+                            </ul>
+                        </div>
+
                 </div>
 
                 <div class="col-md-6 footer-links">
@@ -28,13 +35,13 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 footer-links ml-auto">
-                    <h4>{{ \Carbon\Carbon::now()->year }} <i class="fa-regular fa-copyright"></i></h4>
 
-                </div>
 
             </div>
         </div>
     </div>
+    {{-- <div class="col-md-12 footer-links mx-auto ml-auto">
+        <span>{{ \Carbon\Carbon::now()->year }} <i class="fa-regular fa-copyright"></i></span>
+    </div> --}}
 </footer>
-<!-- End Footer -->
+

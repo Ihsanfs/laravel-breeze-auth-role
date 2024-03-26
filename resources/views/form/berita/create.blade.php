@@ -24,25 +24,11 @@
                 <textarea name="body" id="editor1"  cols="30" rows="10"></textarea>
 
             </div>
-            {{-- <div class="form-group">
-                <label>Kategori</label>
 
-                <select name="kategori_id" id="" class="form-control">
-                    <option value=""  disabled selected>Pilih Kategori</option>
-                    @foreach ($kategori_all as $item)
-                    <option value="{{$item->id}}">{{$item->nama_kategori}}</option>
-                    @endforeach
-
-                </select>
-
-
-
-            </div> --}}
             <div class="form-group">
                 <label>Kategori</label>
                 <select name="kategori_id[]"  class="form-control js-example-tokenizer"  multiple="multiple">
-                    {{-- <option value="" disabled selected>Pilih Tag</option> --}}
-                    <!-- Pengulangan untuk menampilkan opsi tag -->
+                >
                     @foreach ($kategori_all as $item)
                     <option value="{{$item->id}}">{{$item->nama_kategori}}</option>
                     @endforeach
@@ -51,8 +37,7 @@
             <div class="form-group">
                 <label>Tag</label>
                 <select name="tag_id[]"  class="form-control js-example-tokenizer"  multiple="multiple">
-                    {{-- <option value="" disabled selected>Pilih Tag</option> --}}
-                    <!-- Pengulangan untuk menampilkan opsi tag -->
+
                     @foreach ($tag as $item)
                         <option value="{{$item->id}}">{{$item->nama_tag}}</option>
                     @endforeach
@@ -86,10 +71,8 @@
 </div>
 @endsection
 
-
-@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+@push('scripts')
 <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
 <script>

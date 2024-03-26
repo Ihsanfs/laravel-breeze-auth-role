@@ -4,15 +4,35 @@
 <div class="card-body">
     <div class="row">
 
-        <div class="col-md-6 col-lg-6">
-            <form action="{{route($role.'.menu_update', $menu->id)}}" method="POST">
+        <div class="col-md-8 col-lg-8">
+            <form action="{{route($role.'.menu_update', $menu->id)}}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
             <div class="form-group">
                 <label>Nama</label>
                 <input type="text" name="nama_menu"  value = "{{$menu->nama}}"class="form-control" >
+            </div>
+
+            @if($menu->status == 4)
+            @if (!empty($menu->deskripsi_page))
+            <div class="form-group">
+                <label for="deskripsi_h">Deskripsi</label>
+                <textarea name="deskripsi_page" class="form-control" id="editor1" rows="5" placeholder="deskripsi">{{ $menu->deskripsi_page }}</textarea>
+            </div>
+            @endif
+            @if (!empty($menu->gambar_page))
+            <div class="form-group">
+                <label>Gambar sekarang</label>
+                <img width="150px" src="{{ asset($menu->gambar_page) }}">
 
             </div>
+
+            @endif
+            <div class="form-group" id="gambar_page" >
+                <label for="gambar_page">Gambar</label>
+                <input type="file" class="form-control-file" name="gambar_page" >
+            </div>
+            @endif
 
             <div class="form-group">
                 <label>Status</label>
@@ -30,3 +50,23 @@
 </div>
 @endsection
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@push('scripts')
+<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+<script>
+    $(document).ready(function () {
+        // Initialize CKEditor
+        CKEDITOR.replace('editor1');
+        config.sourceAreaTabSize = 8;
+    });
+
+</script>
+
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+
+@endpush

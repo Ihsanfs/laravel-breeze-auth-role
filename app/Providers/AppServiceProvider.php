@@ -5,6 +5,7 @@ namespace App\Providers;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,7 +28,9 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrap();
-
+        // if (env(key: 'APP_ENV') !=='local') {
+        //     URL::forceScheme(scheme:'https');
+        //   }
         // Paginator::useBootstrapFive();
         config(['app.locale' => 'id']);
         Carbon::setLocale('id');

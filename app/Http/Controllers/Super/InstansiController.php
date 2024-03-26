@@ -9,25 +9,31 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 class InstansiController extends Controller
 {
-    public function index(){
+
+    public function __construct()
+    {
+        $this->middleware('setUserRole');
+    }
+
+    public function index(Request $request){
 
         $instansi = instansi::first();
         // dd($instansi);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.instansi.index', compact('instansi','role'));
     }
 
-    public function edit($id){
+    public function edit(Request $request, $id){
         $instansi = instansi::find($id);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.instansi.edit', compact('instansi','role'));
     }
 
-    public function create(){
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+    public function create(Request $request){
+        $role = $request->role;
+
         return view('form.instansi.create',['role' => $role]);
     }
     public function update(Request $request, $id)
@@ -65,8 +71,7 @@ class InstansiController extends Controller
 
         // dd($instansi);
         $instansi->update();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
         return redirect()->route($role. '.instansi')->with('success', 'Data berhasil diperbarui');
     }
 
@@ -106,10 +111,10 @@ class InstansiController extends Controller
         $instansi->kabupaten = $request->kabupaten;
         $instansi->link = $request->sosmed;
 
-        // Mengatur nama file unik dengan menggabungkan rand() pada nama file
+
         $rand = rand(10, 999);
 
-        // Memproses gambar_instansi
+        // proses gambar_instansi
         if ($request->hasFile('gambar_instansi')) {
             $file = $request->file('gambar_instansi');
             $fileName = $rand . '_' . $file->getClientOriginalName();
@@ -118,7 +123,7 @@ class InstansiController extends Controller
             $instansi->foto_instansi = $filePath;
         }
 
-        // Memproses gambar_kepala
+        // Memproses gambar_kepala instasni
         if ($request->hasFile('gambar_kepala')) {
             $file = $request->file('gambar_kepala');
             $fileName = $rand . '_' . $file->getClientOriginalName();
@@ -129,8 +134,8 @@ class InstansiController extends Controller
 
 
         $instansi->save();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return redirect()->route($role. '.instansi')->with('success', 'Data berhasil ditambahkan');
     }
 }

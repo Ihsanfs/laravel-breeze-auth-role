@@ -18,25 +18,32 @@ use Illuminate\Support\Facades\Redirect;
 
 class SuperadminController extends Controller
 {
-    public function index()
+
+    public function __construct()
+    {
+        $this->middleware('setUserRole');
+    }
+
+
+    public function index(Request $request)
     {
         $berita = artikel::count();
-        $userRole = Auth::user()->role_id;
         $halaman = halaman::count();
         $video = Slide::count();
         $galery = Gallery::count();
 
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('admin.index', compact('role', 'berita', 'halaman', 'video', 'galery'));
     }
 
-    public function kategori()
+    public function kategori(Request $request)
     {
 
         $kategori = kategori::all();
-        // dd($kategori);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+
+        $role = $request->role;
+
         return view('form.kategori.index', compact('kategori', 'role'));
     }
 
@@ -47,53 +54,53 @@ class SuperadminController extends Controller
         return response()->json($berita);
     }
 
-    public function kategori_add()
+    public function kategori_add(Request $request)
     {
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.kategori.create', compact('role'));
     }
 
-    public function berita()
+    public function berita(Request $request)
     {
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         $berita = Artikel::paginate(10);
         return view('form.berita.index', compact('berita', 'role'));
     }
 
-    public function berita_detail($slug)
+    public function berita_detail(Request $request,$slug)
     {
 
         $berita = Artikel::where('slug', $slug)->paginate();
 
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
 
         return view('form.berita.result', compact('berita', 'role'));
     }
 
-    public function berita_add()
+    public function berita_add(Request $request)
     {
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         $kategori_all = kategori::all();
         $tag = tag::all();
         return view('form.berita.create', compact('kategori_all', 'role', 'tag'));
     }
 
 
-    public function slider()
+    public function slider(Request $request)
     {
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.slide.index', compact('role'));
     }
 
-    public function slider_add()
+    public function slider_add(Request $request)
     {
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.slide.create', compact('role'));
     }
 
@@ -122,8 +129,8 @@ class SuperadminController extends Controller
 
 
         $kategori = kategori::find($id);
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return view('form.kategori.edit', compact('kategori', 'role'));
     }
 
@@ -134,8 +141,8 @@ class SuperadminController extends Controller
         $kategori_all['slug'] = Str::slug($request->nama_kategori);
         $kategori_all->nama_kategori = $request->nama_kategori;
         $kategori_all->save();
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         return redirect()->route($role . '.kategori')->with(['success' => 'Data berhasil di edit']);
     }
 
@@ -198,8 +205,8 @@ class SuperadminController extends Controller
                 }
             }
 
-            $userRole = Auth::user()->role_id;
-            $role = ($userRole == 2) ? 'admin' : 'superadmin';
+            $role = $request->role;
+
 
             return redirect()->route($role . '.berita')->with(['success' => 'Artikel berhasil ditambahkan']);
         } catch (\Exception $e) {
@@ -209,10 +216,10 @@ class SuperadminController extends Controller
 
 
 
-    public function berita_edit($id)
+    public function berita_edit(Request $request,$id)
     {
-        $userRole = Auth::user()->role_id;
-        $role = ($userRole == 2) ? 'admin' : 'superadmin';
+        $role = $request->role;
+
         $berita = artikel::find($id);
         $tag = artikeltag::leftjoin('artikels as a', 'a.id', '=', 'artikels_tag.artikel_id')
             ->leftjoin('tag', 'tag.id', '=', 'artikels_tag.tag_id')->where('artikels_tag.artikel_id', $id)
@@ -249,8 +256,8 @@ class SuperadminController extends Controller
                 return back()->with(['error' => 'Artikel not found']);
             }
 
-            $userRole = Auth::user()->role_id;
-            $role = ($userRole == 2) ? 'admin' : 'superadmin';
+            $role = $request->role;
+
 
             if (!$request->hasFile('gambar_file')) {
                 // No new file uploaded, update other fields
